@@ -1,5 +1,3 @@
-import datetime
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -18,6 +16,7 @@ class CustomUser(AbstractUser):
     is_player = models.BooleanField(default=True, verbose_name='player')
     is_judge = models.BooleanField(default=False, verbose_name='judge')
     is_organizer = models.BooleanField(default=False, verbose_name='organizer')
+    edited = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
