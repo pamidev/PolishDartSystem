@@ -26,14 +26,11 @@ class CustomUserAdmin(UserAdmin):
         ('Personal info', {
             'fields': ('first_name', 'last_name', 'country', 'city', 'phone',)
         }),
-        ('Function', {
+        ('Functions', {
             'fields': [('is_player', 'is_judge', 'is_organizer')]
         }),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser',)
-        }),
-        ('Important dates', {
-            'fields': ('date_joined', 'last_login',)
         }),
     )
 
@@ -44,7 +41,7 @@ class CustomUserAdmin(UserAdmin):
         ('Personal info', {
             'fields': ('first_name', 'last_name', 'country', 'city', 'phone',)
         }),
-        ('Function', {
+        ('Functions', {
             'fields': [('is_player', 'is_judge', 'is_organizer')]
         }),
         ('Permissions', {
