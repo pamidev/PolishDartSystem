@@ -1,0 +1,39 @@
+{% load static %}
+
+<html {% if LANGUAGE_CODE %} lang="{{ LANGUAGE_CODE }}" {% endif %}>
+    <head>
+        <title>
+            Polish Dart System
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="{% static 'css/normalize.css' %}" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+              crossorigin="anonymous">
+    </head>
+    <body>
+        <header>
+        </header>
+        <nav>
+        </nav>
+        <main>
+            <div  class="container">
+                <div  class="row justify-content-center">
+                    <div  class="col-4">
+                        <h1  class="text-center">Polish Dart System</h1>
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+                integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+                crossorigin="anonymous">
+        </script>
+    </body>
+</html>
