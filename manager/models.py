@@ -86,16 +86,13 @@ class MatchType(models.Model):
         return f'Game type {self.game_type} - {self.name} {self.sets} sets {self.legs} legs'
 
 
-class TrainingMatch(models.Model):
+class Training(models.Model):
     player_1 = models.OneToOneField(Friend, blank=False, null=False, on_delete=CASCADE, related_name='player_1')
     player_2 = models.OneToOneField(CustomUser, blank=False, null=False, on_delete=CASCADE, related_name='player_2')
     match_type = models.ForeignKey(MatchType, blank=False, null=False, on_delete=CASCADE)
     date_match = models.DateTimeField(auto_now=True)
     player_1_score = models.IntegerField(default=0, verbose_name='player 1 score')
     player_2_score = models.IntegerField(default=0, verbose_name='player 2 score')
-
-    class Meta:
-        verbose_name_plural = 'training matches'
 
     def __str__(self):
         return (f'{self.date_match.date()} - {self.player_1} vs. {self.player_2} '
@@ -124,7 +121,7 @@ class Competitor(models.Model):
         return f'{self.competitor}'
 
 
-class TournamentMatch(models.Model):
+class Match(models.Model):
     tournament = models.ForeignKey(Tournament, blank=False, null=False, on_delete=CASCADE)
     match_type = models.ForeignKey(MatchType, blank=False, null=False, on_delete=CASCADE)
     player_1 = models.ForeignKey(Competitor, blank=False, null=False, on_delete=CASCADE, related_name='player_1')
@@ -136,7 +133,7 @@ class TournamentMatch(models.Model):
     edited = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name_plural = 'tournament matches'
+        verbose_name_plural = 'matches'
 
     def __str__(self):
         return f'{self.tournament} - {self.player_1} vs. {self.player_2}'
