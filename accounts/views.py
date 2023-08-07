@@ -1,23 +1,18 @@
-from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
 
-from .forms import CustomUserCreationForm
-from .models import CustomUser
+
+class CustomLoginView(LoginView):
+    template_name = 'accounts/login.html'
 
 
-def signin(request):
-    if request.user.is_authenticated:
-        return redirect('/')
-    else:
-        form = CustomUserCreationForm()
-        if request.method == 'POST':
-            form = CustomUserCreationForm(request.POST)
-            if form.is_valid():
-                email = form.cleaned_data.get('email')
-                if CustomUser.objects.filter(email=email).exists():
-                    messages.error(request, 'Email is already taken.')
-                else:
-                    form.save()
+@method_decorator(login_required, name='dispatch')
+class DashboardView(TemplateView):
+    template_name = 'accounts/dashboard.html'
 
-        context = {'form': form}
-        return render(request, 'accounts/signin.html', context)
+
+@method_decorator(login_required, name='dispatch')
+class LogOutView(TemplateView):
+    template_name = 'accounts/logout.html'
