@@ -1,10 +1,10 @@
 {% block content %}
 {% load static %}
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-body">
+<nav class="navbar navbar-expand-lg bg-body-light border-bottom border-body">
       <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <img src="{% static 'svg/pds_logo.svg' %}" alt="PDS logo" height="32" width="32">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+                <img class ="logo" src="{% static 'svg/pds_logo.svg' %}" alt="Polish Dart System logo" height="32" width="30">
                 Polish Dart System
             </a>
             <button class="navbar-toggler" type="button"
@@ -30,14 +30,14 @@
                               <a class="nav-link" href="#">Account</a>
                             </li>
                             <li class="nav-item">
-                              <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                             </li>
                         {% else %}
                             <li class="nav-item">
-                              <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                              <a class="nav-link" href="{% url 'login' %}">Login</a>
                             </li>
                             <li class="nav-item">
-                              <a class="nav-link" href="#">Sign in</a>
+                              <a class="nav-link" href="{% url 'signin' %}">Sign in</a>
                             </li>
                         {% endif %}
                   </ul>
