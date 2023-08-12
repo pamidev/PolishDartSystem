@@ -1,9 +1,10 @@
-from django.forms import Form
+from django.core.exceptions import ValidationError
+from django.forms import ModelForm
 
 from .models import Competitor, Friend, Match, MatchType, Training, Tournament
 
 
-class TournamentCreationForm(Form):
+class TournamentForm(ModelForm):
     class Meta:
         model = Tournament
         fields = [
@@ -17,7 +18,7 @@ class TournamentCreationForm(Form):
         ]
 
 
-class MatchCreationForm(Form):
+class MatchForm(ModelForm):
     class Meta:
         model = Match
         fields = [
@@ -28,8 +29,17 @@ class MatchCreationForm(Form):
             'judge',
         ]
 
+    def clean(self):
+        cleaned_data = super().clean()
+        player_1 = cleaned_data.get('player_1')
+        player_2 = cleaned_data.get('player_2')
+        judge = cleaned_data.get('judge')
 
-class CompetitorCreationForm(Form):
+        if player_1 == player_2 or player_1 == judge or player_2 == judge:
+            raise ValidationError("Player 1, Player 2, and Judge must be unique person.")
+
+
+class CompetitorForm(ModelForm):
     class Meta:
         model = Competitor
         fields = [
@@ -37,7 +47,7 @@ class CompetitorCreationForm(Form):
         ]
 
 
-class FriendCreationFOrm(Form):
+class FriendForm(ModelForm):
     class Meta:
         model = Friend
         field = [
@@ -45,7 +55,7 @@ class FriendCreationFOrm(Form):
         ]
 
 
-class TrainingCreationForm(Form):
+class TrainingForm(ModelForm):
     class Meta:
         model = Training
         fields = [
@@ -55,7 +65,7 @@ class TrainingCreationForm(Form):
         ]
 
 
-class MatchTypeCreationForm(Form):
+class MatchTypeForm(ModelForm):
     class Meta:
         model = MatchType
         fields = [
