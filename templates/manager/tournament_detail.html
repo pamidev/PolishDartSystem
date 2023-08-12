@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 
+{% block title %}Polish Dart System | Tournament: {{ tournament_detail.name }}{% endblock %}
 {% block content %}
 
-<div class="text">
+<div class="text p-3">
     <p></p>
     <p><strong>Tournament:</strong> {{ tournament_detail.name }}</p>
     <p><strong>Start:</strong> {{ tournament_detail.start_date }}</p>
     <p><strong>End:</strong> {{ tournament_detail.end_date }}</p>
     <p><strong>Organizer:</strong> {{ tournament_detail.organizer }}</p>
-    <p><strong>Place:</strong></p>
-    <p><strong>City:</strong></p>
-    <p><strong>Address:</strong></p>
+    <p><strong>Place:</strong> {{ tournament_detail.place }}</p>
+    <p><strong>City:</strong> {{ tournament_detail.city }}</p>
+    <p><strong>Address:</strong> {{ tournament_detail.address }}</p>
 
     {% if request.user.is_authenticated %}
         <p>
