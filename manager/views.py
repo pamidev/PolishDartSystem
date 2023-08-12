@@ -13,7 +13,7 @@ class HomePageView(TemplateView):
 
 class TournamentsListView(ListView):
     context_object_name = 'tournaments_list'
-    queryset = Tournament.objects.all().order_by('-start_date')
+    queryset = Tournament.objects.all().order_by('start_date')
     template_name = 'manager/tournaments_list.html'
 
 
