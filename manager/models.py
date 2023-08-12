@@ -108,7 +108,7 @@ class Tournament(models.Model):
     edited = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.start_date.date()} - {self.end_date.date()} - {self.name}'
+        return f'{self.name}'
 
 
 class Competitor(models.Model):
