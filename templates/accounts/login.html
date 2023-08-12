@@ -8,11 +8,13 @@
         <div class="row justify-content-sm-center h-100">
             <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
                 <div class="text-center my-5">
-                    <img src="{% static 'svg/pds_logo.svg' %}" alt="Polish Dart System logo" width="70">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'svg/pds_logo.svg' %}" alt="Polish Dart System logo" width="75">
+                    </a>
                 </div>
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
-                        <h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
+                        <h1 class="fs-4 card-title fw-bold mb-4">Log in</h1>
                         <form method="POST" class="needs-validation" novalidate="" autocomplete="off">
                             {% csrf_token %}
                             <div class="mb-3">
@@ -38,14 +40,14 @@
 
                             <div class="d-flex align-items-center">
                                 <button type="submit" class="btn btn-primary ms-auto">
-                                    Login
+                                    Log in
                                 </button>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer py-3 border-0">
                         <div class="text-center">
-                            Don't have an account? <a href="{% url 'signup' %}" class="text-dark">Create here</a>
+                            No account? <a href="{% url 'signup' %}" class="text-dark">Sign up here</a>
                         </div>
                     </div>
                 </div>
