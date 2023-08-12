@@ -1,34 +1,37 @@
 {% extends "base.html" %}
 
+{% block title %}Polish Dart System | Competitors{% endblock %}
 {% block content %}
 
-<h5>Approved competitors list</h5>
-    {% if competitors_list %}
-        <div class="table-responsive">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First name</th>
-                        <th scope="col">Last name</th>
-                        <th scope="col">Country</th>
-                        <th scope="col">City</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for competitor in competitors_list %}
+<div class ="text p-3">
+    <h5>Approved competitors list</h5>
+        {% if competitors_list %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-dark">
                         <tr>
-                            <td>{{ competitor.competitor.id }}</td>
-                            <td>{{ competitor.competitor.first_name }}</td>
-                            <td>{{ competitor.competitor.last_name }}</td>
-                            <td>{{ competitor.competitor.country }}</td>
-                            <td>{{ competitor.competitor.city }}</td>
+                            <th scope="col">#</th>
+                            <th scope="col">First name</th>
+                            <th scope="col">Last name</th>
+                            <th scope="col">Country</th>
+                            <th scope="col">City</th>
                         </tr>
-                    {% endfor %}
-            </table>
-        </div>
-    {% else %}
-        <p><i>Sorry, no competitors yet.</i></p>
-    {% endif %}
+                    </thead>
+                    <tbody>
+                        {% for competitor in competitors_list %}
+                            <tr>
+                                <td>{{ competitor.competitor.id }}</td>
+                                <td>{{ competitor.competitor.first_name }}</td>
+                                <td>{{ competitor.competitor.last_name }}</td>
+                                <td>{{ competitor.competitor.country }}</td>
+                                <td>{{ competitor.competitor.city }}</td>
+                            </tr>
+                        {% endfor %}
+                </table>
+            </div>
+        {% else %}
+            <p><i>Sorry, no competitors yet.</i></p>
+        {% endif %}
+</div>
 
 {% endblock %}
