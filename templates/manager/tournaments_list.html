@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
+{% block title %}Polish Dart System | Tournaments{% endblock %}
 {% block content %}
 
-<h5>Tournaments list</h5>
+<div class="text p-3">
+    <h5>Tournaments list</h5>
     {% if tournaments_list %}
         <div class="table-responsive">
             <table class="table">
@@ -24,7 +26,8 @@
             </table>
         </div>
     {% else %}
-        <p>Sorry, no tournaments yet.</p>
+        <p><i>Sorry, no tournaments yet.</i></p>
     {% endif %}
+</div>
 
 {% endblock %}
