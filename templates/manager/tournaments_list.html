@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h5>Tournaments list</h5>
+    {% if tournaments_list %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Start</th>
+                      <th scope="col">End</th>
+                      <th scope="col">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tournament in tournaments_list %}
+                        <tr>
+                          <td>{{ tournament.start_date }}</td>
+                          <td>{{ tournament.end_date }}</td>
+                            <td><a href="{% url 'tournament_detail' tournament.id %}">{{ tournament.name }}</a></td>
+                        </tr>
+                    {% endfor %}
+            </table>
+        </div>
+    {% else %}
+        <p>Sorry, no tournaments yet.</p>
+    {% endif %}
+
+{% endblock %}
