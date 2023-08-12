@@ -104,6 +104,10 @@ class Tournament(models.Model):
     organizer = models.ForeignKey(CustomUser, blank=False, null=False, on_delete=CASCADE)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=None)
+    place = models.CharField(max_length=128)
+    city = models.CharField(max_length=128)
+    country = models.CharField(max_length=128)
+    address = models.CharField(max_length=254)
     added = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
