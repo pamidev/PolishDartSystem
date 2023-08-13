@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Polish Dart System | Matches{% endblock %}
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Matches list</h4>
+            {% if match_list %}
+                <ul>
+                    {% for match in match_list %}
+                        <li>{{ match.player_1 }} vs. {{ match.player_2 }} ({{ match.tournament }})</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p><i>Sorry, no matches yet.</i></p>
+            {% endif %}
+    </div>
+</div>
+
+{% endblock %}
