@@ -38,7 +38,7 @@ class CompetitorDetailView(DetailView):
 
 
 class MatchesListView(ListView):
-    object = Match
+    model = Match
     template_name = 'manager/matches_list.html'
     context_object_name = 'match_list'
 
