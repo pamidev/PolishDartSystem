@@ -1,4 +1,5 @@
-from .models import Tournament, Competitor, Match
+from accounts.models import CustomUser
+from .models import Tournament, Competitor, Match, Training
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, TemplateView, DetailView
 from django.views import View
@@ -9,6 +10,19 @@ from django.http import HttpResponseForbidden
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['num_players'] = CustomUser.objects.filter(is_player=True).count()
+        context['num_judges'] = CustomUser.objects.filter(is_judge=True).count()
+        context['num_organizers'] = CustomUser.objects.filter(is_organizer=True).count()
+        context['num_competitors'] = Competitor.objects.filter(is_approved=True).count()
+        context['num_tournaments'] = Tournament.objects.all().count()
+        context['num_matches'] = Match.objects.all().count()
+        context['num_trainings'] = Training.objects.all().count()
+
+        return context
 
 
 class TournamentsListView(ListView):
@@ -40,11 +54,11 @@ class CompetitorDetailView(DetailView):
 class MatchesListView(ListView):
     model = Match
     template_name = 'manager/matches_list.html'
-    context_object_name = 'match_list'
+    context_object_name = 'matches_list'
 
     def get_queryset(self):
         tournament_id = self.kwargs['tournament_id']
-        return Match.objects.filter(tournament_id=tournament_id).select_related('player_1', 'player_1', 'tournament')
+        return Match.objects.filter(tournament_id=tournament_id).select_related('player_1', 'player_2', 'tournament')
 
 
 class MatchDetailView(DetailView):
