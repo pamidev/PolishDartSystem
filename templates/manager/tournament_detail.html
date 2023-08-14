@@ -12,11 +12,10 @@
     <p><strong>Place:</strong> {{ tournament_detail.place }}</p>
     <p><strong>City:</strong> {{ tournament_detail.city }}</p>
     <p><strong>Address:</strong> {{ tournament_detail.address }}</p>
+    <p><strong>Competitors:</strong> {{ tournament_detail.approved_competitors }} ({{ all_competitors }})</p>
 
     {% if request.user.is_authenticated %}
-        <p>
-            <a href="{% url 'competitors_list' tournament_detail.id %}">Approved competitors list</a>
-        </p>
+        <a href="{% url 'competitors_list' tournament_detail.id %}">Approved competitors list</a>
     {% endif %}
 </div>
 
