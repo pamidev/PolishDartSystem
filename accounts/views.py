@@ -1,8 +1,10 @@
 from django.contrib.auth import views
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy, reverse
+from django.views.generic import TemplateView, CreateView, UpdateView, DetailView
 
 from .forms import SignUpForm
+from .models import CustomUser
 
 
 class SignUpView(CreateView):
@@ -13,6 +15,28 @@ class SignUpView(CreateView):
 
 class SignUpDoneView(TemplateView):
     template_name = 'accounts/signup_done.html'
+
+
+class ProfileEditView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    fields = [
+        'email',
+        'first_name',
+        'last_name',
+        'country',
+        'city',
+        'phone',
+    ]
+    template_name = 'accounts/profile_edit.html'
+
+    def get_success_url(self):
+        return reverse('profile', kwargs={'slug': self.object.slug})
+
+
+class ProfileView(LoginRequiredMixin, DetailView):
+    model = CustomUser
+    template_name = 'accounts/profile.html'
+    context_object_name = 'profile'
 
 
 class CustomLoginView(views.LoginView):
