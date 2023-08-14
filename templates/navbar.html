@@ -15,21 +15,28 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                   <ul class="navbar-nav">
                         <li class="nav-item">
-                          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                          <a class="nav-link {% if request.path == '/' %}active{% endif %}"
+                             {% if request.path == '/' %}aria-current="page"{% endif %}
+                             href="{% url 'home' %}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link disabled" aria-disabled="true">Scoreboard</a>
                         </li>
                         <li class="nav-item">
-                              <a class="nav-link" href="{% url 'tournaments_list' %}">Tournaments</a>
+                            <a class="nav-link {% if request.path == '/tournaments/' %}active{% endif %}"
+                               {% if request.path == '/tournaments/' %}aria-current="page"{% endif %}
+                               href="{% url 'tournaments_list' %}">Tournaments</a>
                         </li>
                         {% if request.user.is_authenticated %}
                             <li class="nav-item">
-                              <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                            <a class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}"
+                                {% if request.path == '/dashboard/' %}aria-current="page"{% endif %}
+                                href="{% url 'dashboard' %}">Dashboard</a>
                             </li>
-
                             <li class="nav-item">
-                              <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                              <a class="nav-link {% if request.path == '/logout/' %}active{% endif %}"
+                                 {% if request.path == '/logout/' %}aria-current="page"{% endif %}
+                                 href="{% url 'logout' %}">Log out</a>
                             </li>
                         {% else %}
                             <li class="nav-item">
