@@ -1,11 +1,8 @@
+from django.db.models import Count, Q
+from django.views.generic import ListView, TemplateView, DetailView
+
 from accounts.models import CustomUser
 from .models import Tournament, Competitor, Match, Training
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, TemplateView, DetailView
-from django.views import View
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.http import HttpResponseForbidden
 
 
 class HomePageView(TemplateView):
@@ -25,16 +22,34 @@ class HomePageView(TemplateView):
         return context
 
 
-class TournamentsListView(ListView):
+class CompetitorsMixin:
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.annotate(
+            approved_competitors=Count('competitor', filter=Q(competitor__is_approved=True))
+        )
+        return queryset
+
+
+class TournamentsListView(CompetitorsMixin, ListView):
     context_object_name = 'tournaments_list'
-    queryset = Tournament.objects.all().order_by('start_date')
+    model = Tournament
     template_name = 'manager/tournaments_list.html'
+    ordering = 'start_date'
 
 
-class TournamentDetailView(DetailView):
+class TournamentDetailView(CompetitorsMixin, DetailView):
     model = Tournament
     context_object_name = 'tournament_detail'
     template_name = 'manager/tournament_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tournament = self.get_object()
+        context['all_competitors'] = Competitor.objects.filter(tournament=self.object).count()
+        context['is_registered'] = tournament.competitor_set.filter(competitor=self.request.user).exists()
+        context['tournament_detail'] = tournament
+        return context
 
 
 class CompetitorsListView(ListView):
@@ -71,7 +86,6 @@ class TrainingsListView(ListView):
 
 class TrainingDetailView(DetailView):
     pass
-
 
 # @method_decorator(login_required, name='dispatch')
 # class SetApprovalStatusView(View):
