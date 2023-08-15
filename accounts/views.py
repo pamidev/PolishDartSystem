@@ -17,6 +17,12 @@ class SignUpDoneView(TemplateView):
     template_name = 'accounts/signup_done.html'
 
 
+class ProfileView(LoginRequiredMixin, DetailView):
+    model = CustomUser
+    template_name = 'accounts/profile.html'
+    context_object_name = 'profile'
+
+
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     fields = [
@@ -31,12 +37,6 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('profile', kwargs={'slug': self.object.slug})
-
-
-class ProfileView(LoginRequiredMixin, DetailView):
-    model = CustomUser
-    template_name = 'accounts/profile.html'
-    context_object_name = 'profile'
 
 
 class CustomLoginView(views.LoginView):
