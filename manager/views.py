@@ -1,7 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q
-from django.views.generic import ListView, TemplateView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, TemplateView, DetailView, CreateView
 
 from accounts.models import CustomUser
+from .forms import TournamentForm
 from .models import Tournament, Competitor, Match, Training
 
 
@@ -14,7 +17,6 @@ class HomePageView(TemplateView):
         context['num_players'] = CustomUser.objects.filter(is_player=True).count()
         context['num_judges'] = CustomUser.objects.filter(is_judge=True).count()
         context['num_organizers'] = CustomUser.objects.filter(is_organizer=True).count()
-        context['num_competitors'] = Competitor.objects.filter(is_approved=True).count()
         context['num_tournaments'] = Tournament.objects.all().count()
         context['num_matches'] = Match.objects.all().count()
         context['num_trainings'] = Training.objects.all().count()
@@ -31,9 +33,26 @@ class CompetitorsMixin:
         return queryset
 
 
-class TournamentsListView(CompetitorsMixin, ListView):
-    context_object_name = 'tournaments_list'
+class TournamentAddView(LoginRequiredMixin, CreateView):
     model = Tournament
+    form_class = TournamentForm
+    template_name = 'manager/tournament_add.html'
+    success_url = reverse_lazy('tournaments_list')
+
+    def form_valid(self, form):
+        form.instance.organizer = self.request.user
+        return super().form_valid(form)
+
+
+class TournamentEditView(LoginRequiredMixin, CreateView):
+    form_class = TournamentForm
+    template_name = 'manager/tournament_edit.html'
+    success_url = reverse_lazy('tournaments_list')
+
+
+class TournamentsListView(CompetitorsMixin, ListView):
+    model = Tournament
+    context_object_name = 'tournaments_list'
     template_name = 'manager/tournaments_list.html'
     ordering = 'start_date'
 
