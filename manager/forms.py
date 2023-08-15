@@ -17,6 +17,14 @@ class TournamentForm(ModelForm):
             'address',
         ]
 
+    def save(self, commit=True, user=None):
+        instance = super().save(commit=False)
+        if user:
+            instance.organizer = user
+        if commit:
+            instance.save()
+        return instance
+
 
 class MatchForm(ModelForm):
     class Meta:
@@ -50,7 +58,7 @@ class CompetitorForm(ModelForm):
 class FriendForm(ModelForm):
     class Meta:
         model = Friend
-        field = [
+        fields = [
             'name'
         ]
 
