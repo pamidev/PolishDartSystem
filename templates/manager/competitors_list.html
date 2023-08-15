@@ -1,16 +1,15 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block title %}Polish Dart System | Competitors{% endblock %}
 {% block content %}
 
-<div class ="text p-3">
-    <h5>Approved competitors list</h5>
+<section>
+    <div class ="text p-3">
+        <h5>Approved competitors list</h5>
         {% if competitors_list %}
             <div class="table-responsive">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-dark">
                             <th scope="col">First name</th>
                             <th scope="col">Last name</th>
                             <th scope="col">Country</th>
@@ -20,7 +19,6 @@
                     <tbody>
                         {% for competitor in competitors_list %}
                             <tr>
-                                <td>{{ competitor.competitor.id }}</td>
                                 <td>{{ competitor.competitor.first_name }}</td>
                                 <td>{{ competitor.competitor.last_name }}</td>
                                 <td>{{ competitor.competitor.country }}</td>
@@ -28,10 +26,19 @@
                             </tr>
                         {% endfor %}
                 </table>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="#">
+                        <button type="button" class="btn btn-secondary btn-sm">Tournament detail</button>
+                    </a>
+                    <a href="{% url 'tournaments_list' %}">
+                        <button type="button" class="btn btn-primary btn-sm">Other tournaments</button>
+                    </a>
+                </div>
             </div>
         {% else %}
             <p><i>Sorry, no competitors yet.</i></p>
         {% endif %}
-</div>
+    </div>
+</section>
 
 {% endblock %}
