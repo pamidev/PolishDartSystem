@@ -1,32 +1,62 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% load static %}
 {% block title %}Polish Dart System | Probably the best dart tournaments management system{% endblock %}
 {% block content %}
 
-<div class="row align-items-center">
-    <div class="col">
-        <img src="{% static '/img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
-    </div>
-    <div class="col d-flex justify-content-center align-items-center">
-        <div class="card shadow-lg" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title fw-bold">PDS statistic</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">How many numbers we have</h6>
-                <p class="card-text">
-                    <strong>Players:</strong> {{ num_players }}<br>
-                    <strong>Judges:</strong> {{ num_judges }}<br>
-                    <strong>Organizers:</strong> {{ num_organizers }}<br>
-                    <strong>Competitors:</strong> {{ num_competitors }}<br>
-                    <strong>Tournaments:</strong> {{ num_tournaments }}<br>
-                    <strong>Matches:</strong> {{ num_matches }}<br>
-                    <strong>Trainings:</strong> {{ num_trainings }}<br>
-                </p>
-                <a href="{% url 'login' %}" class="card-link">Log in</a>
-                <a href="{% url 'signup' %}" class="card-link">Sign up</a>
-          </div>
+<section>
+    <div class="row align-items-center">
+        <div class="col">
+            <img src="{% static '/img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+            <div class="card shadow-lg" style="width: 20rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Polish Dart System statistic</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">How many numbers we have</h6>
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Players</th>
+                                    <td>{{ num_players }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Judges</th>
+                                    <td>{{ num_judges }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Organizers</th>
+                                    <td>{{ num_organizers }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Tournaments</th>
+                                    <td>{{ num_tournaments }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Matches</th>
+                                    <td>{{ num_matches }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Trainings</th>
+                                    <td>{{ num_trainings }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% if not request.user.is_authenticated %}
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                <a href="{% url 'login'%}">
+                                    <button type="button" class="btn btn-primary btn-sm">Log in</button>
+                                </a>
+                                <a href="{% url 'signup'%}">
+                                    <button type="button" class="btn btn-primary btn-sm">Sign up</button>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 {% endblock %}
