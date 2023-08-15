@@ -1,22 +1,72 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
+{% load static %}
 {% block title %}Polish Dart System | Tournament: {{ tournament_detail.name }}{% endblock %}
 {% block content %}
 
-<div class="text p-3">
-    <p></p>
-    <p><strong>Tournament:</strong> {{ tournament_detail.name }}</p>
-    <p><strong>Start:</strong> {{ tournament_detail.start_date }}</p>
-    <p><strong>End:</strong> {{ tournament_detail.end_date }}</p>
-    <p><strong>Organizer:</strong> {{ tournament_detail.organizer }}</p>
-    <p><strong>Place:</strong> {{ tournament_detail.place }}</p>
-    <p><strong>City:</strong> {{ tournament_detail.city }}</p>
-    <p><strong>Address:</strong> {{ tournament_detail.address }}</p>
-    <p><strong>Competitors:</strong> {{ tournament_detail.approved_competitors }} ({{ all_competitors }})</p>
-
-    {% if request.user.is_authenticated %}
-        <a href="{% url 'competitors_list' tournament_detail.id %}">Approved competitors list</a>
-    {% endif %}
-</div>
+<section>
+    <div class="row align-items-center">
+        <div class="col">
+            <img src="{% static '/img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                          <th colspan="2" scope="row">Tournament details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Tournament</th>
+                            <td>{{ tournament_detail.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Start</th>
+                            <td>{{ tournament_detail.start_date }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">End</th>
+                            <td>{{ tournament_detail.end_date }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Organizer</th>
+                            <td>{{ tournament_detail.organizer }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Place</th>
+                            <td>{{ tournament_detail.place }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">City</th>
+                            <td>{{ tournament_detail.city }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Address</th>
+                            <td>{{ tournament_detail.address }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Competitors</th>
+                            <td>{{ tournament_detail.approved_competitors }} ({{ all_competitors }})</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="{% url 'tournaments_list'%}">
+                        <button type="button" class="btn btn-secondary btn-sm">Tournaments list</button>
+                    </a>
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'competitors_list' tournament_detail.id %}">
+                            <button type="button" class="btn btn-primary btn-sm">Check competitors</button>
+                        </a>
+                        <a href="#">
+                            <button type="button" class="btn btn-success btn-sm">Add me</button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}
