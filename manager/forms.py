@@ -1,3 +1,4 @@
+from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
@@ -9,6 +10,7 @@ class TournamentForm(ModelForm):
         model = Tournament
         fields = [
             'name',
+            'organizer',
             'start_date',
             'end_date',
             'place',
@@ -50,16 +52,18 @@ class MatchForm(ModelForm):
 class CompetitorForm(ModelForm):
     class Meta:
         model = Competitor
-        fields = [
-            'tournament'
-        ]
+        fields = []
+
+        competitor = forms.IntegerField(widget=forms.HiddenInput())
+        tournament = forms.IntegerField(widget=forms.HiddenInput())
 
 
 class FriendForm(ModelForm):
     class Meta:
         model = Friend
         fields = [
-            'name'
+            'buddy_with',
+            'name',
         ]
 
 
