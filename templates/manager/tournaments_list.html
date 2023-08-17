@@ -15,6 +15,7 @@
             {% if tournaments_list %}
                 <div class="table-responsive">
                     <table class="table table-hover">
+                        <caption>List of tournaments</caption>
                         <thead class="table-dark">
                             <tr>
                                 <th scope="col">Start</th>
@@ -28,8 +29,8 @@
                         <tbody>
                             {% for tournament in tournaments_list %}
                                 <tr>
-                                    <td>{{ tournament.start_date }}</td>
-                                    <td>{{ tournament.end_date }}</td>
+                                    <td>{{ tournament.start_date.date }}</td>
+                                    <td>{{ tournament.end_date.date }}</td>
                                     <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
                                     <td>{{ tournament.city }}</td>
                                     <td>{{ tournament.place }}</td>
