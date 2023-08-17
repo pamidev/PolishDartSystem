@@ -1,10 +1,13 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, DetailView, CreateView
 
 from accounts.models import CustomUser
-from .forms import TournamentForm
+from .forms import TournamentForm, CompetitorForm
 from .models import Tournament, Competitor, Match, Training
 
 
@@ -57,18 +60,55 @@ class TournamentsListView(CompetitorsMixin, ListView):
     ordering = 'start_date'
 
 
-class TournamentDetailView(CompetitorsMixin, DetailView):
-    model = Tournament
-    context_object_name = 'tournament_detail'
-    template_name = 'manager/tournament_detail.html'
+@login_required
+def tournament_details(request, tournament_id):
+    tournament = get_object_or_404(Tournament, pk=tournament_id)
+    is_registered = False
+    has_required_profile_fields = all(
+        getattr(request.user, field_name, None) for field_name in ['first_name', 'last_name', 'email', 'phone']
+    )
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        tournament = self.get_object()
-        context['all_competitors'] = Competitor.objects.filter(tournament=self.object).count()
-        context['is_registered'] = tournament.competitor_set.filter(competitor=self.request.user).exists()
-        context['tournament_detail'] = tournament
-        return context
+    if request.user.is_authenticated:
+        is_registered = tournament.competitor_set.filter(competitor=request.user).exists()
+
+    if request.method == 'POST':
+        if has_required_profile_fields:
+            form = CompetitorForm(request.POST)
+            if form.is_valid():
+                competitor = form.save(commit=False)
+                competitor.competitor = request.user
+                competitor.tournament = tournament
+                competitor.save()
+
+                messages.success(request, 'You have been successfully added as a competitor.')
+
+                return redirect('tournament_details', tournament_id=tournament_id)
+        else:
+            missing_fields = [field_name for field_name in ['first_name', 'last_name', 'email', 'phone']
+                              if not getattr(request.user, field_name, None)]
+            context = {
+                'tournament': tournament,
+                'missing_fields': missing_fields,
+            }
+            return render(request, 'manager/tournament_details.html', context)
+    else:
+        form = CompetitorForm()
+
+    all_competitors = Competitor.objects.filter(tournament=tournament).count()
+    approved_competitors = Competitor.objects.filter(tournament=tournament, is_approved=True).count()
+    is_approved = Competitor.objects.filter(tournament=tournament, is_approved=True, competitor=request.user)
+
+    context = {
+        'tournament': tournament,
+        'form': form,
+        'all_competitors': all_competitors,
+        'approved_competitors': approved_competitors,
+        'is_registered': is_registered,
+        'is_approved': is_approved,
+        'has_required_profile_fields': has_required_profile_fields,
+    }
+
+    return render(request, 'manager/tournament_details.html', context)
 
 
 class CompetitorsListView(ListView):
@@ -105,23 +145,3 @@ class TrainingsListView(ListView):
 
 class TrainingDetailView(DetailView):
     pass
-
-# @method_decorator(login_required, name='dispatch')
-# class SetApprovalStatusView(View):
-#
-#     def post(self, request, *args, **kwargs):
-#         tournament_id = kwargs['tournament_id']
-#         competitor_id = kwargs['competitor_id']
-#
-#         tournament = get_object_or_404(Tournament, id=tournament_id)
-#
-#         if not request.user.is_superuser and tournament.organizer != request.user:
-#             return HttpResponseForbidden("Nie masz uprawnień do zarządzania tym turniejem.")
-#
-#         competitor = get_object_or_404(Competitor, id=competitor_id, tournament_id=tournament_id)
-#
-#         is_approved = request.POST.get('is_approved', False)
-#         competitor.is_approved = bool(is_approved)
-#         competitor.save()
-#
-#         return redirect('competitors_list', tournament_id=tournament_id)
