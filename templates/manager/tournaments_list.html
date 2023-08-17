@@ -1,34 +1,47 @@
 {% extends 'base.html' %}
-{% block title %}Polish Dart System | Tournaments{% endblock %}
+{% block title %}Polish Dart System | Tournaments list{% endblock %}
 {% block content %}
 
-<div class="text p-3">
-    <h5>Tournaments list</h5>
-    {% if tournaments_list %}
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">Start</th>
-                        <th scope="col">End</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Competitors</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for tournament in tournaments_list %}
-                        <tr>
-                            <td>{{ tournament.start_date }}</td>
-                            <td>{{ tournament.end_date }}</td>
-                            <td><a href="{% url 'tournament_detail' tournament.id %}">{{ tournament.name }}</a></td>
-                            <td>{{ tournament.approved_competitors }}</td>
-                        </tr>
-                    {% endfor %}
-            </table>
+    <section>
+        <div class="text p-3">
+            {% if not user.is_authenticated %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i>Please, <a href="{% url 'login' %}" class="alert-link">log in</a> to view all tournaments details
+                        or <a href="{% url 'login' %}" class="alert-link">sign up</a> if You don't have an account.</i>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+            <h5>Tournaments list</h5>
+            {% if tournaments_list %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Start</th>
+                                <th scope="col">End</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Place</th>
+                                <th scope="col">Comp.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tournament in tournaments_list %}
+                                <tr>
+                                    <td>{{ tournament.start_date }}</td>
+                                    <td>{{ tournament.end_date }}</td>
+                                    <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
+                                    <td>{{ tournament.city }}</td>
+                                    <td>{{ tournament.place }}</td>
+                                    <td>{{ tournament.approved_competitors }}</td>
+                                </tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <p><i>Sorry, no tournaments yet.</i></p>
+            {% endif %}
         </div>
-    {% else %}
-        <p><i>Sorry, no tournaments yet.</i></p>
-    {% endif %}
-</div>
+    </section>
 
 {% endblock %}
