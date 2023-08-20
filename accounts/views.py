@@ -26,12 +26,12 @@ class ProfileView(LoginRequiredMixin, DetailView):
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     fields = [
-        'email',
         'first_name',
         'last_name',
+        'email',
+        'phone',
         'country',
         'city',
-        'phone',
     ]
     template_name = 'accounts/profile_edit.html'
 
