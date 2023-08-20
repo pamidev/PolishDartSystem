@@ -13,37 +13,37 @@
                     <h5 class="fw-bold mb-3">Update profile: {{ profile_edit.get_full_name }}</h5>
                     <form method="POST">
                         {% csrf_token %}
-                        <div class="mb-3">
-                            <label class="mb-2 text-muted" for="id_email">E-Mail (as login)</label>
+                        <div class="mb-2">
+                            <label class="mb-2 text-muted" for="id_email">E-Mail address (as login)</label>
                             <input id="id_email" type="email" class="form-control"
                                    name="email" value="{{ profile_edit.email }}" disabled readonly>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label class="mb-2 text-muted" for="id_first_name">First name</label>
                             <input id="id_first_name" type="text" class="form-control"
                                    name="first_name" value="{{ profile_edit.first_name }}">
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label class="mb-2 text-muted" for="id_last_name">Last name</label>
                             <input id="id_last_name" type="text" class="form-control"
                                    name="last_name" value="{{ profile_edit.last_name }}">
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label class="mb-2 text-muted" for="id_country">Country</label>
                             <input id="id_country" type="text" class="form-control"
                                    name="country" value="{{ profile_edit.country }}">
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label class="mb-2 text-muted" for="id_city">City</label>
                             <input id="id_city" type="text" class="form-control"
                                    name="city" value="{{ profile_edit.city }}">
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label class="mb-2 text-muted" for="id_phone">Phone</label>
                             <input id="id_phone" type="text" class="form-control"
                                    name="phone" value="{{ profile_edit.phone }}">
