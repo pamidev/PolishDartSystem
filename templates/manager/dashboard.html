@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Polish Dart System | Dashboard{% endblock %}
+{% block content %}
+
+    <section>
+        <div class="text p-3">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                {% if tournaments_as_player %}
+                    <thead class="table-dark">
+                        <tr>
+                          <th colspan="6" scope="row">Tournaments as Player</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-secondary">
+                            <th scope="col">Start</th>
+                            <th scope="col">End</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Place</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                        {% for tournament in tournaments_as_player %}
+                            <tr>
+                                <td>{{ tournament.start_date.date }}</td>
+                                <td>{{ tournament.end_date.date }}</td>
+                                <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
+                                <td>{{ tournament.city }}</td>
+                                <td>{{ tournament.place }}</td>
+                                <td>{% if is_approved %}
+                                        <span class="badge rounded-pill text-bg-success">Approved</span>
+                                    {% else %}
+                                        {% if is_registered %}
+                                            <span class="badge rounded-pill text-bg-danger">Registered</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                {% endif %}
+                {% if tournaments_as_judge %}
+                    <thead class="table-dark">
+                        <tr>
+                          <th colspan="6" scope="row">Tournaments as Judge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-secondary">
+                            <th scope="col">Start</th>
+                            <th scope="col">End</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Place</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                        {% for tournament in tournaments_as_judge %}
+                            <tr>
+                                <td>{{ tournament.start_date.date }}</td>
+                                <td>{{ tournament.end_date.date }}</td>
+                                <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
+                                <td>{{ tournament.city }}</td>
+                                <td>{{ tournament.place }}</td>
+                                <td>{% if is_approved %}
+                                        <span class="badge rounded-pill text-bg-success">Approved</span>
+                                    {% else %}
+                                        <span class="badge rounded-pill text-bg-danger">Not Approved</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                {% endif %}
+                {% if tournaments_as_organizer %}
+                    <thead class="table-dark">
+                        <tr>
+                          <th colspan="6" scope="row">Tournaments as Organizer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-secondary">
+                            <th scope="col">Start</th>
+                            <th scope="col">End</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Place</th>
+                            <th scope="col">Address</th>
+                        </tr>
+                        {% for tournament in tournaments_as_organizer %}
+                            <tr>
+                                <td>{{ tournament.start_date.date }}</td>
+                                <td>{{ tournament.end_date.date }}</td>
+                                <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
+                                <td>{{ tournament.city }}</td>
+                                <td>{{ tournament.place }}</td>
+                                <td>{{ tournament.address }}</td>
+                            </tr>
+                        {% endfor %}
+                {% endif %}
+                </table>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
