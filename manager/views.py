@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Case, When, Value, BooleanField
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView, DetailView, CreateView
+from django.views.generic import ListView, TemplateView, DetailView, CreateView, UpdateView
 
 from accounts.models import CustomUser
 from .forms import TournamentForm, CompetitorForm
@@ -27,6 +27,63 @@ class HomePageView(TemplateView):
         return context
 
 
+@login_required()
+def dashboard(request):
+    tournament = get_object_or_404(Tournament, pk=request.user.id)
+    is_registered = False
+    user = request.user
+
+    tournaments_as_player = Tournament.objects.filter(
+        competitor__competitor=user,
+        competitor__competitor__is_player=True
+    ).distinct().order_by('start_date')
+
+    tournaments_as_judge = Tournament.objects.filter(
+        competitor__competitor=user,
+        competitor__competitor__is_judge=True
+    ).distinct().order_by('start_date')
+
+    tournaments_as_organizer = Tournament.objects.filter(
+        competitor__competitor=user,
+        competitor__competitor__is_organizer=True,
+        organizer=user
+    ).distinct().order_by('start_date')
+
+    matches_as_player = Match.objects.filter(
+        Q(player_1__competitor=user) | Q(player_2__competitor=user),
+        player_1__competitor__is_player=True
+    ).annotate(
+        is_player_match=Case(
+            When(player_1__competitor=user, then=Value(True)),
+            When(player_2__competitor=user, then=Value(True)),
+            default=Value(False),
+            output_field=BooleanField()
+        )
+    ).filter(is_player_match=True).select_related('player_1__competitor')
+
+    matches_as_judge = Match.objects.filter(
+        judge__competitor=user,
+        judge__competitor__is_judge=True
+    ).distinct()
+
+    if request.user.is_authenticated:
+        is_registered = tournament.competitor_set.filter(competitor=request.user).exists()
+
+    is_approved = Competitor.objects.filter(tournament=tournament, is_approved=True, competitor=request.user)
+
+    context = {
+        'tournaments_as_player': tournaments_as_player,
+        'tournaments_as_judge': tournaments_as_judge,
+        'tournaments_as_organizer': tournaments_as_organizer,
+        'matches_as_player': matches_as_player,
+        'matches_as_judge': matches_as_judge,
+        'is_approved': is_approved,
+        'is_registered': is_registered,
+    }
+
+    return render(request, 'manager/dashboard.html', context)
+
+
 class CompetitorsMixin:
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -47,7 +104,7 @@ class TournamentAddView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class TournamentEditView(LoginRequiredMixin, CreateView):
+class TournamentEditView(LoginRequiredMixin, UpdateView):
     form_class = TournamentForm
     template_name = 'manager/tournament_edit.html'
     success_url = reverse_lazy('tournaments_list')
@@ -65,7 +122,7 @@ def tournament_details(request, tournament_id):
     tournament = get_object_or_404(Tournament, pk=tournament_id)
     is_registered = False
     has_required_profile_fields = all(
-        getattr(request.user, field_name, None) for field_name in ['first_name', 'last_name', 'email', 'phone']
+        getattr(request.user, field_name, None) for field_name in ['first_name', 'last_name', 'email']
     )
 
     if request.user.is_authenticated:
@@ -84,7 +141,7 @@ def tournament_details(request, tournament_id):
 
                 return redirect('tournament_details', tournament_id=tournament_id)
         else:
-            missing_fields = [field_name for field_name in ['first_name', 'last_name', 'email', 'phone']
+            missing_fields = [field_name for field_name in ['first_name', 'last_name', 'email']
                               if not getattr(request.user, field_name, None)]
             context = {
                 'tournament': tournament,
