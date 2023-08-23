@@ -12,45 +12,39 @@ class CustomUserAdmin(UserAdmin):
 
     list_display = (
         'email', 'first_name', 'last_name',
-        'is_player', 'is_judge', 'is_organizer', 'is_staff', 'is_active',
+        'is_organizer', 'is_staff', 'is_active',
     )
 
     list_filter = (
-        'is_player', 'is_judge', 'is_organizer', 'is_staff', 'is_active',
+        'is_organizer', 'is_staff', 'is_active',
     )
 
     fieldsets = (
         (None, {
-            'fields': ('email', 'password',)
+            'fields': ('email', 'password')
         }),
         ('Personal info', {
-            'fields': ('first_name', 'last_name', 'country', 'city', 'phone',)
-        }),
-        ('Functions', {
-            'fields': [('is_player', 'is_judge', 'is_organizer')]
+            'fields': ('first_name', 'last_name', 'country', 'city', 'phone')
         }),
         ('Permissions', {
-            'fields': ('is_active', 'is_staff', 'is_superuser',)
+            'fields': ('is_active', 'is_organizer', 'is_staff', 'is_superuser')
         }),
     )
 
     add_fieldsets = (
         (None, {
-            'fields': ('email', 'password1', 'password2',)
+            'fields': ('email', 'password1', 'password2')
         }),
         ('Personal info', {
-            'fields': ('first_name', 'last_name', 'country', 'city', 'phone',)
-        }),
-        ('Functions', {
-            'fields': [('is_player', 'is_judge', 'is_organizer')]
+            'fields': ('first_name', 'last_name', 'country', 'city', 'phone')
         }),
         ('Permissions', {
-            'fields': ('is_active', 'is_staff', 'is_superuser',)
+            'fields': ('is_active', 'is_organizer', 'is_staff', 'is_superuser')
         }),
     )
 
     search_fields = ('email', 'first_name', 'last_name')
-    ordering = ('last_name', 'first_name',)
+    ordering = ('last_name', 'first_name')
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
