@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Polish Dart System | Tournaments list{% endblock %}
+{% block content %}
+
+    <section>
+        <div class="text p-3">
+            <h5>Tournaments list</h5>
+            {% if organizer_tournaments %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Start</th>
+                                <th scope="col">End</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Place</th>
+                                <th scope="col">Comp.</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tournament in organizer_tournaments %}
+                                <tr>
+                                    <td>{{ tournament.start_date.date }}</td>
+                                    <td>{{ tournament.end_date.date }}</td>
+                                    <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
+                                    <td>{{ tournament.city }}</td>
+                                    <td>{{ tournament.place }}</td>
+                                    <td>{{ tournament.competitors }}</td>
+                                    <td><a href="{% url 'tournament_edit' tournament.id %}">Edit</a></td>
+                                </tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <p><i>Sorry, no tournaments yet.</i></p>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}
