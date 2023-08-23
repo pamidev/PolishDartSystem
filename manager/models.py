@@ -119,7 +119,9 @@ class Competitor(models.Model):
     competitor = models.ForeignKey(CustomUser, blank=False, null=False, on_delete=CASCADE)
     tournament = models.ForeignKey(Tournament, blank=False, null=False, on_delete=CASCADE)
     joined = models.DateTimeField(auto_now_add=True)
-    is_approved = models.BooleanField(default=False, verbose_name='approved')
+    is_player = models.BooleanField(default=False, verbose_name='player')
+    is_judge = models.BooleanField(default=False, verbose_name='judge')
+    edited = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.competitor}'
