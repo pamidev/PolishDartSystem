@@ -45,18 +45,26 @@
                                 <th scope="row">Address</th>
                                 <td>{{ tournament.address }}</td>
                             </tr>
-                            {% if request.user.is_authenticated and is_registered %}
+                            {% if request.user.is_authenticated %}
                                 <tr>
                                     <th scope="row">Competitors</th>
-                                    <td>{{ approved_competitors }} ({{ all_competitors }})</td>
+                                    <td>{{ num_players }} ({{ num_all_competitors }})</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Your status</th>
                                     <td>
-                                        {% if is_approved %}
-                                            <span class="badge rounded-pill text-bg-success">Approved</span>
+                                        {% if is_registered and not player and not judge and not organizer %}
+                                            <span class="badge text-bg-danger">Registered</span>
                                         {% else %}
-                                            <span class="badge rounded-pill text-bg-danger">Registered</span>
+                                            {% if organizer %}
+                                                <span class="badge text-bg-info">Organizer</span>
+                                            {% endif %}
+                                            {% if player %}
+                                                <span class="badge text-bg-success">Player</span>
+                                            {% endif %}
+                                            {% if judge %}
+                                                <span class="badge text-bg-warning">Judge</span>
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -64,13 +72,18 @@
                         </tbody>
                     </table>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                        <a href="{% url 'tournaments_list'%}">
-                            <button type="button" class="btn btn-secondary btn-sm">Tournaments list</button>
-                        </a>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="goBack()">
+                            Back
+                        </button>
                         {% if request.user.is_authenticated %}
                             <a href="{% url 'competitors_list' tournament.id %}">
-                                <button type="button" class="btn btn-primary btn-sm">Check competitors</button>
+                                <button type="button" class="btn btn-primary btn-sm">Competitors</button>
                             </a>
+                        {% if request.user.is_organizer %}
+                            <a href="{% url 'tournament_edit' tournament.id %}">
+                                <button type="button" class="btn btn-primary btn-sm">Edit tournament</button>
+                            </a>
+                        {% endif %}
                             {% if not is_registered %}
                                 <form method="POST">
                                 {% csrf_token %}
@@ -78,8 +91,6 @@
                                     <button type="submit" class="btn btn-success btn-sm">Register me</button>
                                 </form>
                             {% endif %}
-                        {% else %}
-                            <p><a href="{% url 'login' %}">Log in</a> to add yourself as a competitor.</p>
                         {% endif %}
                     </div>
                 </div>
