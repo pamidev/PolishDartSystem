@@ -22,7 +22,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">City</th>
                                 <th scope="col">Place</th>
-                                <th scope="col">Comp.</th>
+                                <th scope="col">Players</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,7 +33,7 @@
                                     <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
                                     <td>{{ tournament.city }}</td>
                                     <td>{{ tournament.place }}</td>
-                                    <td>{{ tournament.approved_competitors }}</td>
+                                    <td>{{ tournament.players }}</td>
                                 </tr>
                             {% endfor %}
                     </table>
