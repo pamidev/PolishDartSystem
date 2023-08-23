@@ -16,7 +16,7 @@
                         <div class="mb-2">
                             <label class="mb-2 text-muted" for="id_email">E-Mail address (as login)</label>
                             <input id="id_email" type="email" class="form-control"
-                                   name="email" value="{{ profile_edit.email }}" disabled readonly>
+                                   name="email" value="{{ profile_edit.email }}" readonly>
                         </div>
 
                         <div class="mb-2">
@@ -54,7 +54,7 @@
                                 Save changes
                             </button>
                             <a href="{% url 'profile' profile_edit.pk %}">
-                                <button type="button" class="btn btn-secondary btn-sm">
+                                <button type="button" class="btn btn-danger btn-sm">
                                     Don't save
                                 </button>
                             </a>
