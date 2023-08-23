@@ -10,8 +10,6 @@ class CustomUser(AbstractUser):
     country = models.CharField(max_length=128, blank=True, null=False)
     city = models.CharField(max_length=128, blank=True, null=False)
     phone = models.CharField(max_length=16, blank=True, null=False)
-    is_player = models.BooleanField(default=True, verbose_name='player')
-    is_judge = models.BooleanField(default=False, verbose_name='judge')
     is_organizer = models.BooleanField(default=False, verbose_name='organizer')
     edited = models.DateTimeField(auto_now=True, blank=True, null=True)
 
