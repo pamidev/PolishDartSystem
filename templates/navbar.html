@@ -28,23 +28,37 @@
                            href="{% url 'tournaments_list' %}">Tournaments</a>
                     </li>
                     {% if request.user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}"
-                               {% if request.path == '/dashboard/' %}aria-current="page"{% endif %}
-                               href="{% url 'dashboard' %}">Dashboard</a>
-                        </li>
+                        {% if user.is_organizer %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">Manager
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" href="{% url 'organizer_tournaments' user.pk %}">
+                                            Tournaments I organize
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" href="{% url 'tournament_add' %}">
+                                            Add new tournament
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                               aria-expanded="false">{{ request.user.first_name }}'s  account
+                               aria-expanded="false">{{ request.user.first_name }}'s account
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
-                                    <a class="dropdown-item" href="{% url 'profile' request.user.id %}">
+                                    <a class="dropdown-item" href="{% url 'profile' request.user.pk %}">
                                         Profile
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="dropdown-item" href="{% url 'profile_edit' request.user.id %}">
+                                    <a class="dropdown-item" href="{% url 'profile_edit' request.user.pk %}">
                                         Update profile
                                     </a>
                                 </li>
