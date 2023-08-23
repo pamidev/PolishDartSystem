@@ -28,8 +28,8 @@
                                 <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
                                 <td>{{ tournament.city }}</td>
                                 <td>{{ tournament.place }}</td>
-                                <td>{% if is_approved %}
-                                        <span class="badge rounded-pill text-bg-success">Approved</span>
+                                <td>{% if is_player %}
+                                        <span class="badge rounded-pill text-bg-success">Player</span>
                                     {% else %}
                                         {% if is_registered %}
                                             <span class="badge rounded-pill text-bg-danger">Registered</span>
@@ -61,8 +61,8 @@
                                 <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
                                 <td>{{ tournament.city }}</td>
                                 <td>{{ tournament.place }}</td>
-                                <td>{% if is_approved %}
-                                        <span class="badge rounded-pill text-bg-success">Approved</span>
+                                <td>{% if is_player %}
+                                        <span class="badge rounded-pill text-bg-success">Player</span>
                                     {% else %}
                                         <span class="badge rounded-pill text-bg-danger">Not Approved</span>
                                     {% endif %}
