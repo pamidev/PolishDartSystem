@@ -1,4 +1,4 @@
-Create tour{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block title %}Polish Dart System | Tournament addition form{% endblock %}
 {% block content %}
@@ -23,13 +23,13 @@ Create tour{% extends 'base.html' %}
                             <div class="col-auto mb-2">
                                 <label class="mb-2 text-muted" for="id_start_date">Start date, time</label>
                                 <input id="id_start_date" type="datetime-local" class="form-control"
-                                       name="start_date" value="{{ tournament_edit.start_date }}">
+                                       name="start_date" value="{{ tournament_edit.start_date|date:'Y-m-d\TH:i' }}">
                             </div>
 
                             <div class="col-auto mb-2">
                                 <label class="mb-2 text-muted" for="id_end_date">End date, time</label>
                                 <input id="id_end_date" type="datetime-local" class="form-control"
-                                       name="end_date" value="{{ tournament_edit.end_date }}">
+                                       name="end_date" value="{{ tournament_edit.end_date|date:'Y-m-d\TH:i' }}">
                             </div>
                         </div>
 
