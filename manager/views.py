@@ -170,9 +170,9 @@ def tournament_details(request, tournament_id):
     num_all_competitors = Competitor.objects.filter(tournament=tournament).count()
     num_players = Competitor.objects.filter(tournament=tournament, is_player=True).count()
     num_judges = Competitor.objects.filter(tournament=tournament, is_judge=True).count()
-    player = Competitor.objects.filter(tournament=tournament, is_player=True)
-    judge = Competitor.objects.filter(tournament=tournament, is_judge=True)
-    organizer = Competitor.objects.filter(tournament=tournament, tournament__organizer=request.user)
+    is_player = Competitor.objects.filter(tournament=tournament, competitor=request.user, is_player=True).exists()
+    is_judge = Competitor.objects.filter(tournament=tournament, competitor=request.user, is_judge=True).exists()
+    is_organizer = Tournament.objects.filter(organizer=request.user).exists()
 
     context = {
         'tournament': tournament,
@@ -181,9 +181,9 @@ def tournament_details(request, tournament_id):
         'num_players': num_players,
         'num_judges': num_judges,
         'is_registered': is_registered,
-        'player': player,
-        'judge': judge,
-        'organizer': organizer,
+        'is_player': is_player,
+        'is_judge': is_judge,
+        'is_organizer': is_organizer,
     }
 
     return render(request, 'manager/tournament_details.html', context)
