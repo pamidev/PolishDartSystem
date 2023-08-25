@@ -22,7 +22,8 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">City</th>
                                 <th scope="col">Place</th>
-                                <th scope="col">Players</th>
+                                <th scope="col">P</th>
+                                <th scope="col">J</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,10 +31,19 @@
                                 <tr>
                                     <td>{{ tournament.start_date.date }}</td>
                                     <td>{{ tournament.end_date.date }}</td>
-                                    <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
+                                    <td>
+                                        {% if request.user.is_authenticated %}
+                                            <a href="{% url 'tournament_details' tournament.id %}">
+                                                {{ tournament.name }}
+                                            </a>
+                                        {% else %}
+                                            {{ tournament.name }}
+                                        {% endif %}
+                                    </td>
                                     <td>{{ tournament.city }}</td>
                                     <td>{{ tournament.place }}</td>
                                     <td>{{ tournament.players }}</td>
+                                    <td>{{ tournament.judges }}</td>
                                 </tr>
                             {% endfor %}
                     </table>
