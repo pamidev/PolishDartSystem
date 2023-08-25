@@ -10,7 +10,6 @@ class TournamentForm(ModelForm):
         model = Tournament
         fields = [
             'name',
-            'organizer',
             'start_date',
             'end_date',
             'place',
@@ -18,14 +17,6 @@ class TournamentForm(ModelForm):
             'city',
             'address',
         ]
-
-    def save(self, commit=True, user=None):
-        instance = super().save(commit=False)
-        if user:
-            instance.organizer = user
-        if commit:
-            instance.save()
-        return instance
 
 
 class MatchForm(ModelForm):
