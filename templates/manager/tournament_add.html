@@ -6,46 +6,54 @@
     <section>
         <div class="row align-items-center">
             <div class="col">
-                <img src="{% static '/img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
+                <img src="{% static 'img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
             </div>
             <div class="col d-flex justify-content-center align-items-center">
                 <div>
-                    <h5 class="fw-bold mb-3">Tournament addition form</h5>
+                    <h5 class="fw-bold mb-4">Tournament addition form</h5>
                     <form method="POST">
                         {% csrf_token %}
-                        <div class="mb-2">
+                        <div class="mb-3">
                             <label class="mb-2 text-muted" for="id_name">Tournament name</label>
                             <input id="id_name" type="text" class="form-control"
                                    name="name" placeholder="Lubartowska Liga Darta" required>
                         </div>
 
                         <div class ="row g-2">
-                            <div class="col-auto mb-2">
+                            <div class="col-auto mb-3">
                                 <label class="mb-2 text-muted" for="id_start_date">Start date, time</label>
                                 <input id="id_start_date" type="datetime-local" class="form-control"
                                        name="start_date" required>
                             </div>
 
-                            <div class="col-auto mb-2">
+                            <div class="col-auto mb-3">
                                 <label class="mb-2 text-muted" for="id_end_date">End date, time</label>
                                 <input id="id_end_date" type="datetime-local" class="form-control"
                                        name="end_date" required>
                             </div>
                         </div>
 
-                        <div class="mb-2">
+                        <div class="mb-3">
                             <label class="mb-2 text-muted" for="id_place">Place name</label>
                             <input id="id_place" type="text" class="form-control"
                                    name="place" placeholder="Klub Bilardowy Podkowa" required>
                         </div>
 
-                        <div class="mb-2">
-                            <label class="mb-2 text-muted" for="id_city">City</label>
-                            <input id="id_city" type="text" class="form-control"
-                                   name="city" placeholder="Lubartów" required>
+                        <div class ="row g-2">
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_country">Country</label>
+                                <input id="id_country" type="text" class="form-control"
+                                       name="country" placeholder="Poland" value="Poland" required>
+                            </div>
+
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_city">City</label>
+                                <input id="id_city" type="text" class="form-control"
+                                       name="city" placeholder="Lubartów" required>
+                            </div>
                         </div>
 
-                        <div class="mb-2">
+                        <div class="mb-3">
                             <label class="mb-2 text-muted" for="id_address">Address</label>
                             <input id="id_address" type="text" class="form-control"
                                    name="address" placeholder="ul. Juliusza Słowackiego 43" required>

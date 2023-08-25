@@ -6,7 +6,7 @@
     <section>
         <div class="row align-items-center">
             <div class="col">
-                <img src="{% static '/img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
+                <img src="{% static 'img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
             </div>
             <div class="col d-flex justify-content-center align-items-center">
                 <div>
@@ -39,10 +39,19 @@
                                    name="place" value="{{ tournament_edit.place }}">
                         </div>
 
-                        <div class="mb-2">
-                            <label class="mb-2 text-muted" for="id_city">City</label>
-                            <input id="id_city" type="text" class="form-control"
-                                   name="city" value="{{ tournament_edit.city }}">
+
+                        <div class ="row g-2">
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_country">Country</label>
+                                <input id="id_country" type="text" class="form-control"
+                                       name="country" value="{{ tournament_edit.country }}">
+                            </div>
+
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_city">City</label>
+                                <input id="id_city" type="text" class="form-control"
+                                       name="city" value="{{ tournament_edit.city }}">
+                            </div>
                         </div>
 
                         <div class="mb-2">

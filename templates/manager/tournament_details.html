@@ -18,7 +18,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">Tournament</th>
+                                <th scope="row">Name</th>
                                 <td>{{ tournament.name }}</td>
                             </tr>
                             <tr>
@@ -45,26 +45,42 @@
                                 <th scope="row">Address</th>
                                 <td>{{ tournament.address }}</td>
                             </tr>
-                            {% if request.user.is_authenticated %}
+                            {% if is_tournament_organizer %}
                                 <tr>
-                                    <th scope="row">Competitors</th>
-                                    <td>{{ num_players }} ({{ num_all_competitors }})</td>
+                                    <th scope="row">All registered</th>
+                                    <td>{{ num_registered }}</td>
                                 </tr>
-                                <tr>
+                            {% endif %}
+                            <tr>
+                                <th scope="row">Players</th>
+                                <td>{{ num_players }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Judges</th>
+                                <td>{{ num_judges }}</td>
+                            </tr>
+                            <tr>
+                                {% if request.user.is_authenticated %}
                                     <th scope="row">Your status</th>
                                     <td>
-                                        {% if is_registered and not player and not judge and not organizer %}
-                                            <span class="badge text-bg-danger">Registered</span>
-                                        {% else %}
-                                            {% if organizer %}
+                                        {% if is_registered %}
+                                            {% if is_tournament_organizer %}
                                                 <span class="badge text-bg-info">Organizer</span>
+                                            {% elif not is_player and not is_judge %}
+                                                <span class="badge text-bg-danger">Registered</span>
                                             {% endif %}
-                                            {% if player %}
-                                                <span class="badge text-bg-success">Player</span>
-                                            {% endif %}
-                                            {% if judge %}
-                                                <span class="badge text-bg-warning">Judge</span>
-                                            {% endif %}
+                                        {% endif %}
+                                        {% if not is_registered and is_tournament_organizer %}
+                                            <span class="badge text-bg-info">Organizer</span>
+                                        {% endif %}
+                                        {% if is_registered and is_player %}
+                                            <span class="badge text-bg-success">Player</span>
+                                        {% endif %}
+                                        {% if is_registered and is_judge %}
+                                            <span class="badge text-bg-warning">Judge</span>
+                                        {% endif %}
+                                        {% if not is_registered and not is_tournament_organizer %}
+                                            <span class="badge text-bg-secondary">None</span>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -79,18 +95,18 @@
                             <a href="{% url 'competitors_list' tournament.id %}">
                                 <button type="button" class="btn btn-primary btn-sm">Competitors</button>
                             </a>
-                        {% if request.user.is_organizer %}
+                        {% endif %}
+                        {% if is_tournament_organizer %}
                             <a href="{% url 'tournament_edit' tournament.id %}">
                                 <button type="button" class="btn btn-primary btn-sm">Edit tournament</button>
                             </a>
                         {% endif %}
-                            {% if not is_registered %}
-                                <form method="POST">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                    <button type="submit" class="btn btn-success btn-sm">Register me</button>
-                                </form>
-                            {% endif %}
+                        {% if not is_registered %}
+                            <form method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                                <button type="submit" class="btn btn-success btn-sm">Register me</button>
+                            </form>
                         {% endif %}
                     </div>
                 </div>
