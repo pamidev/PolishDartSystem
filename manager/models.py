@@ -100,12 +100,12 @@ class Training(models.Model):
 
 
 class Tournament(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, blank=False, null=False)
     organizer = models.ForeignKey(CustomUser, blank=False, null=False, on_delete=CASCADE)
-    start_date = models.DateTimeField(default=timezone.now)
-    end_date = models.DateTimeField(default=None)
+    start_date = models.DateTimeField(default=None, blank=False, null=False)
+    end_date = models.DateTimeField(default=None, blank=False, null=False)
     place = models.CharField(max_length=128, blank=False, null=False)
-    city = models.CharField(max_length=128, blank=True, null=True, default='Lubartów')
+    city = models.CharField(max_length=128, blank=False, null=False)
     country = models.CharField(max_length=128, blank=False, null=False, default='Poland')
     address = models.CharField(max_length=254, blank=False, null=False)
     added = models.DateTimeField(auto_now_add=True)
