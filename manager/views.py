@@ -1,11 +1,11 @@
+from datetime import datetime
+
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q, Case, When, Value, BooleanField
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
-from django.utils import timezone
-from django.utils.decorators import method_decorator
 from django.views.generic import ListView, TemplateView, DetailView, CreateView, UpdateView
 
 from accounts.models import CustomUser
@@ -29,7 +29,7 @@ class HomePageView(TemplateView):
         return context
 
 
-@login_required()
+@login_required
 def dashboard(request):
     tournament = get_object_or_404(Tournament, pk=request.user.id)
     is_registered = False
@@ -90,8 +90,11 @@ class TournamentAddView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('tournaments_list')
 
     def form_valid(self, form):
-        form.instance.organizer = self.request.user
-        return super().form_valid(form)
+        if self.request.user.is_organizer:
+            form.instance.organizer = self.request.user
+            return super().form_valid(form)
+        else:
+            return messages.error(self.request, "You do not have permission to add a tournament.")
 
 
 class TournamentEditView(LoginRequiredMixin, UpdateView):
@@ -100,8 +103,12 @@ class TournamentEditView(LoginRequiredMixin, UpdateView):
     template_name = 'manager/tournament_edit.html'
     context_object_name = 'tournament_edit'
 
+    def form_valid(self, form):
+        form.instance.edited = datetime.now()
+        return super().form_valid(form)
+
     def get_success_url(self):
-        return reverse('tournaments', kwargs={'pk': self.object.pk})
+        return reverse('tournament_details', kwargs={'tournament_id': self.object.pk})
 
 
 class TournamentsListView(ListView):
@@ -113,17 +120,13 @@ class TournamentsListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.annotate(
-            players=Count('competitor', filter=Q(competitor__is_player=True))
+            players=Count('competitor', filter=Q(competitor__is_player=True)),
+            judges=Count('competitor', filter=Q(competitor__is_judge=True)),
         )
         return queryset
 
 
-def is_tournament_organizer(user):
-    return Tournament.objects.filter(organizer=user).exists()
-
-
-@method_decorator(user_passes_test(is_tournament_organizer), name='dispatch')
-class OrganizerTournamentsView(ListView):
+class OrganizerTournamentsView(LoginRequiredMixin, ListView):
     model = Tournament
     context_object_name = 'organizer_tournaments'
     template_name = 'manager/organizer_tournaments.html'
@@ -147,43 +150,45 @@ class OrganizerTournamentsView(ListView):
 @login_required
 def tournament_details(request, tournament_id):
     tournament = get_object_or_404(Tournament, pk=tournament_id)
-    is_registered = False
-
-    if request.user.is_authenticated:
-        is_registered = tournament.competitor_set.filter(competitor=request.user).exists()
 
     if request.method == 'POST':
         form = CompetitorForm(request.POST)
         if form.is_valid():
-            competitor = form.save(commit=False)
-            competitor.competitor = request.user
-            competitor.tournament = tournament
-            competitor.joined = timezone.now()
-            competitor.save()
+            if Competitor.objects.filter(tournament=tournament, competitor=request.user).exists():
+                messages.error(request, 'You are already registered in this tournament.')
+            elif request.user.is_superuser:
+                messages.error(request, 'As a superuser You cannot be registered in any tournament.')
+            else:
+                competitor = form.save(commit=False)
+                competitor.competitor = request.user
+                competitor.tournament = tournament
+                competitor.joined = datetime.now()
+                competitor.save()
 
-            messages.success(request, 'You have been successfully added as a competitor.')
+                messages.success(request, 'You have been successfully registered.')
 
             return redirect('tournament_details', tournament_id=tournament_id)
     else:
         form = CompetitorForm()
 
-    num_all_competitors = Competitor.objects.filter(tournament=tournament).count()
+    num_registered = Competitor.objects.filter(tournament=tournament).count()
     num_players = Competitor.objects.filter(tournament=tournament, is_player=True).count()
     num_judges = Competitor.objects.filter(tournament=tournament, is_judge=True).count()
+    is_registered = Competitor.objects.filter(tournament=tournament, competitor=request.user).exists()
     is_player = Competitor.objects.filter(tournament=tournament, competitor=request.user, is_player=True).exists()
     is_judge = Competitor.objects.filter(tournament=tournament, competitor=request.user, is_judge=True).exists()
-    is_organizer = Tournament.objects.filter(organizer=request.user).exists()
+    is_tournament_organizer = tournament.organizer == request.user
 
     context = {
         'tournament': tournament,
         'form': form,
-        'num_all_competitors': num_all_competitors,
+        'num_registered': num_registered,
         'num_players': num_players,
         'num_judges': num_judges,
         'is_registered': is_registered,
         'is_player': is_player,
         'is_judge': is_judge,
-        'is_organizer': is_organizer,
+        'is_tournament_organizer': is_tournament_organizer,
     }
 
     return render(request, 'manager/tournament_details.html', context)
@@ -194,9 +199,25 @@ class CompetitorsListView(ListView):
     context_object_name = 'competitors_list'
     template_name = 'manager/competitors_list.html'
 
-    def get_queryset(self):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         tournament_id = self.kwargs['tournament_id']
-        return Competitor.objects.filter(tournament_id=tournament_id, is_player=True)
+
+        tournament = get_object_or_404(Tournament, pk=tournament_id)
+
+        competitors = (Competitor.objects.filter(tournament=tournament, is_player=True) |
+                       Competitor.objects.filter(tournament=tournament, is_judge=True))
+
+        for competitor in competitors:
+            competitor.is_player = competitor.is_player and competitor.tournament_id == tournament_id
+            competitor.is_judge = competitor.is_judge and competitor.tournament_id == tournament_id
+
+        context.update({
+            'tournament': tournament,
+            'competitors_list': competitors,
+        })
+
+        return context
 
 
 class CompetitorDetailView(DetailView):
