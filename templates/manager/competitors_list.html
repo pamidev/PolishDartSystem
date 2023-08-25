@@ -4,7 +4,7 @@
 
 <section>
     <div class ="text p-3">
-        <caption><h5>Approved competitors list</h5></caption>
+        <caption><h5>Approved competitors list of <strong>{{ tournament }}</strong></h5></caption>
         {% if competitors_list %}
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -14,6 +14,7 @@
                             <th scope="col">Last name</th>
                             <th scope="col">Country</th>
                             <th scope="col">City</th>
+                            <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,13 +24,19 @@
                                 <td>{{ competitor.competitor.last_name }}</td>
                                 <td>{{ competitor.competitor.country }}</td>
                                 <td>{{ competitor.competitor.city }}</td>
+                                <td>
+                                    {% if competitor.is_player %}
+                                        <span class="badge text-bg-success">Player</span>
+                                    {% endif %}
+                                    {% if competitor.is_judge %}
+                                        <span class="badge text-bg-warning">Judge</span>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
+                    </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                    <a href="#">
-                        <button type="button" class="btn btn-secondary btn-sm">Tournament detail</button>
-                    </a>
                     <button type="button" class="btn btn-primary btn-sm" onclick="goBack()">
                         Back
                     </button>
