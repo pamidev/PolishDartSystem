@@ -3,60 +3,87 @@
 {% block title %}Polish Dart System | Probably the best dart tournaments management system{% endblock %}
 {% block content %}
 
-<section>
-    <div class="row align-items-center">
-        <div class="col">
-            <img src="{% static '/img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
-        </div>
-        <div class="col d-flex justify-content-center align-items-center">
-            <div class="card shadow-lg" style="width: 20rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Polish Dart System statistic</h5>
-                    <h6 class="card-subtitle mb-2 text-body-secondary">How many numbers we have</h6>
-                    <div class="table-responsive">
-                        <table class="table table-borderless">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Players</th>
-                                    <td>{{ num_players }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Judges</th>
-                                    <td>{{ num_judges }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Organizers</th>
-                                    <td>{{ num_organizers }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Tournaments</th>
-                                    <td>{{ num_tournaments }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Matches</th>
-                                    <td>{{ num_matches }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Trainings</th>
-                                    <td>{{ num_trainings }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        {% if not request.user.is_authenticated %}
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                <a href="{% url 'login'%}">
-                                    <button type="button" class="btn btn-primary btn-sm">Log in</button>
-                                </a>
-                                <a href="{% url 'signup'%}">
-                                    <button type="button" class="btn btn-primary btn-sm">Sign up</button>
-                                </a>
+    <section>
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static 'img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="d-grid gap-4 d-md-flex justify-content-md-center">
+                        <div class="card text-bg-secondary mb-3 shadow" style="min-width:10rem; max-width: 10rem; min-height: 10rem;">
+                            <div class="card-header">Tournaments</div>
+                                <div class="card-body">
+                                    <p class="card-digit text-center">{{ num_tournaments }}</p>
+                                </div>
+                        </div>
+                        <div class="card text-bg-light mb-3 shadow" style="min-width:10rem; max-width: 10rem; min-height: 10rem;">
+                            <div class="card-header">Matches</div>
+                                <div class="card-body">
+                                    <p class="card-digit text-center">{{ num_matches }}</p>
+                                </div>
+                        </div>
+                        <div class="card text-bg-primary mb-3 shadow" style="min-width:10rem; max-width: 10rem; min-height: 10rem;">
+                            <div class="card-header">Trainings</div>
+                                <div class="card-body">
+                                    <p class="card-digit text-center">{{ num_trainings }}</p>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="d-grid gap-4 d-md-flex justify-content-md-center">
+                        <div class="card text-bg-info mb-3 shadow" style="min-width:10rem; max-width: 10rem; min-height: 10rem;">
+                            <div class="card-header">Organizers</div>
+                                <div class="card-body">
+                                    <p class="card-digit text-center">{{ num_organizers }}</p>
+                                </div>
+                        </div>
+                        <div class="card text-bg-success mb-3 shadow" style="min-width:10rem; max-width: 10rem; min-height: 10rem;">
+                            <div class="card-header">Players</div>
+                                <div class="card-body">
+                                    <p class="card-digit text-center">{{ num_players }}</p>
+                                </div>
+                        </div>
+                        <div class="card text-bg-warning mb-3 shadow" style="min-width:10rem; max-width: 10rem; min-height: 10rem;">
+                            <div class="card-header">Judges</div>
+                                <div class="card-body">
+                                    <p class="card-digit text-center">{{ num_judges }}</p>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+                        <div class="card text-bg-light mb-3 shadow-lg" style="min-width:18rem;">
+                            <div class="card-header">Hey,
+                                {% if request.user.is_authenticated %}
+                                    <strong>{{ request.user.first_name }}</strong>
+                                {% else %}
+                                    Stranger
+                                {% endif %}!
                             </div>
-                        {% endif %}
+                            <div class="card-body text-center">
+                                <p class="card-text">If You want to be one of us, don't be shy and...</p>
+                                {% if not request.user.is_authenticated %}
+                                    <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+                                        <a href="{% url 'login'%}">
+                                            <button type="button" class="btn btn-primary">Log in</button>
+                                        </a>
+                                        or
+                                        <a href="{% url 'signup'%}">
+                                            <button type="button" class="btn btn-primary">Sign up</button>
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <p class="card-text text-center">let's play <strong>DARTS</strong>!</p>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 {% endblock %}
