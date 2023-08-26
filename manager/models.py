@@ -1,6 +1,7 @@
+from datetime import datetime
+
 from django.db import models
 from django.db.models import CASCADE
-from django.utils import timezone
 
 from accounts.models import CustomUser
 
@@ -133,7 +134,7 @@ class Match(models.Model):
     player_1 = models.ForeignKey(Competitor, blank=False, null=False, on_delete=CASCADE, related_name='player_1')
     player_2 = models.ForeignKey(Competitor, blank=False, null=False, on_delete=CASCADE, related_name='player_2')
     judge = models.ForeignKey(Competitor, blank=False, null=False, on_delete=CASCADE, related_name='judge')
-    start_date = models.DateTimeField(default=timezone.now)
+    start_date = models.DateTimeField(default=datetime.now())
     end_date = models.DateTimeField(default=None)
     added = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
