@@ -23,11 +23,11 @@
                             </tr>
                             <tr>
                                 <th scope="row">Start</th>
-                                <td>{{ tournament.start_date }}</td>
+                                <td>{{ tournament.start_date|date:"Y-d-m, H:i" }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">End</th>
-                                <td>{{ tournament.end_date }}</td>
+                                <td>{{ tournament.end_date|date:"Y-d-m, H:i" }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Organizer</th>
