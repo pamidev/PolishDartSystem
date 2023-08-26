@@ -79,6 +79,15 @@
                                     <p class="card-text text-center">let's play <strong>DARTS</strong>!</p>
                                 {% endif %}
                             </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">
+                                    {% if request.user.is_authenticated %}
+                                        You are with us since: {{ user.date_joined|date:"Y-m-d, H:i" }}
+                                    {% else %}
+                                        What are You still waiting for?
+                                    {% endif %}
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </div>
