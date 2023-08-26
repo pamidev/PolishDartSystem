@@ -100,7 +100,7 @@ class Training(models.Model):
 
 
 class Tournament(models.Model):
-    name = models.CharField(max_length=128, blank=False, null=False)
+    name = models.CharField(max_length=128, blank=False, null=False, unique=True)
     organizer = models.ForeignKey(CustomUser, blank=False, null=False, on_delete=CASCADE)
     start_date = models.DateTimeField(default=None, blank=False, null=False)
     end_date = models.DateTimeField(default=None, blank=False, null=False)
