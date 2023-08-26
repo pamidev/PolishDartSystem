@@ -19,9 +19,9 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['num_players'] = Competitor.objects.filter(is_player=True).count()
-        context['num_judges'] = Competitor.objects.filter(is_judge=True).count()
-        context['num_organizers'] = CustomUser.objects.filter(is_organizer=True).count()
+        context['num_players'] = Competitor.objects.filter(is_player=True).values('competitor').distinct().count()
+        context['num_judges'] = Competitor.objects.filter(is_judge=True).values('competitor').distinct().count()
+        context['num_organizers'] = CustomUser.objects.filter(is_organizer=True).distinct().count()
         context['num_tournaments'] = Tournament.objects.all().count()
         context['num_matches'] = Match.objects.all().count()
         context['num_trainings'] = Training.objects.all().count()
@@ -92,7 +92,11 @@ class TournamentAddView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         if self.request.user.is_organizer:
             form.instance.organizer = self.request.user
-            return super().form_valid(form)
+
+            if Tournament.objects.filter(name=form.instance.name).exists():
+                return messages.error(self.request, "This tournament name already exist.")
+            else:
+                return super().form_valid(form)
         else:
             return messages.error(self.request, "You do not have permission to add a tournament.")
 
