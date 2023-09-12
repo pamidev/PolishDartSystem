@@ -83,40 +83,38 @@ def dashboard(request):
     return render(request, 'manager/dashboard.html', context)
 
 
-class TournamentMixin(LoginRequiredMixin):
+class TournamentAddView(LoginRequiredMixin, CreateView):
     model = Tournament
     form_class = TournamentForm
-    template_name = None
-    success_url = None
-    error_message = ""
-
-    def form_valid(self, form):
-        if self.request.user.is_organizer:
-            if hasattr(form.instance, 'organizer'):
-                form.instance.organizer = self.request.user
-            form.instance.edited = datetime.now()
-
-            if hasattr(self, 'object') and form.instance.name != self.object.name and Tournament.objects.filter(
-                    name=form.instance.name).exists():
-                return self.handle_error("This tournament name already exists.")
-            else:
-                return super().form_valid(form)
-        else:
-            return self.handle_error("You do not have permission to perform this action.")
-
-    def handle_error(self, message):
-        messages.error(self.request, message)
-        return self.render_to_response(self.get_context_data())
-
-
-class TournamentAddView(TournamentMixin, CreateView):
     template_name = 'manager/tournament_add.html'
     success_url = reverse_lazy('tournaments_list')
 
+    def form_valid(self, form):
+        if self.request.user.is_organizer:
+            form.instance.organizer = self.request.user
 
-class TournamentEditView(TournamentMixin, UpdateView):
+            if Tournament.objects.filter(name=form.instance.name).exists():
+                return messages.error(self.request, "This tournament name already exist.")
+            else:
+                return super().form_valid(form)
+        else:
+            return messages.error(self.request, "You do not have permission to add a tournament.")
+
+
+class TournamentEditView(LoginRequiredMixin, UpdateView):
+    model = Tournament
+    form_class = TournamentForm
     template_name = 'manager/tournament_edit.html'
     context_object_name = 'tournament_edit'
+
+    def form_valid(self, form):
+        tournament_name_exists = Tournament.objects.filter(name=form.instance.name).exists()
+
+        if tournament_name_exists and form.instance.name != self.object.name:
+            return messages.error(self.request, "This tournament name already exists.")
+
+        form.instance.edited = datetime.now()
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('tournament_details', kwargs={'tournament_id': self.object.pk})
