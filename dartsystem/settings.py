@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*.miduch.dev']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*.pythonanywhere.com']
 
 # SECURITY settings:
 SECURE_BROWSER_XSS_FILTER = True
@@ -104,12 +104,8 @@ WSGI_APPLICATION = 'dartsystem.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env('ENGINE'),
-        'NAME': env('NAME'),
-        'USER': env('USER'),
-        'PASSWORD': env('PASSWORD'),
-        'HOST': env('HOST'),
-        'PORT': env('PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db_pds.sqlite3',
     }
 }
 
