@@ -27,12 +27,14 @@ during which the results were written down on pieces of paper.
 for players' lists
 * automation of the registration and approval process of tournament participants
 * automation of the selection of pairs of players
+* keep games schedules
 * displaying individual game results and statistics
 
 ### in the future it is planned:
-* adding a "scoreboard" module that will help collect and convert points entered during the game to ultimately 
+* adding a `scoreboard` module that will help collect and convert points entered during the game to ultimately 
 generate statistics for a given game and the entire tournament
 * rescaling the application to support more tournaments and users
+* deploying and maintaining at VPS with own domain
 
 
 # Technologies:
@@ -49,7 +51,7 @@ generate statistics for a given game and the entire tournament
 - and [GitHub](https://github.com) of course
 
 ### Soon:
-- deploying on Virtual Personal Server with OS like Linux Server Ubuntu and own domain
+- deploying on Virtual Personal Server with OS like Linux Ubuntu Server and own domain
 - [Nginx](https://nginx.org)
 - CI/CD
 
@@ -57,30 +59,30 @@ generate statistics for a given game and the entire tournament
 # Features
 
 ### User not logged in
-An not logged in user can only see basic information about planned and completed tournaments, such as date, name, city,
-place and the number of players approved by the organizer.
+As a user who is not logged in, you can only see the basic information about planned and completed tournaments, 
+such as date, name, city, place and the number of players approved by the organizer.
 
 >Such a not logged in user can, of course, create an account to have more options.
 
 ### User logged in
 __User__ - i.e. one who does not have the `organizer` status, but has the ability to:
-* see your profile (data that is saved in the database)
-* change or supplement the data provided during registration
-* register for the tournament
-* see own registration status in tournament details (registered, player, referee)
-* see a list of approved players for a given tournament and their status
-* after approval by the organizer and granting him the status of a player or referee, he may perform these functions 
+* see own profile (data that is saved in the database)
+* change or add the data provided during registration
+* simple registration for the tournament by clicking `Register me` button
+* see own registration status in tournament details (`registered`, `player`, `judge`)
+* see a list of approved players for a given tournament and their statuses
+* after approval by the `organizer` and granting him the status of a `player` or `judge`, he may perform these functions 
 in the tournament for which he registered
 * reset own password
 * become an `organizer`
 
 __Organizer__ - i.e. one who has the `organizer` status assigned by the administrator:
 * has possibilities like `user` (except the last one of course)
-* additionally can:
+* additionally he can:
     * add information about tournaments he organizes
-    * edit information about tournaments you have added
-    * grant and revoke player and/or referee status to registered participants in their tournaments
-    * create a schedule of matches for approved players and assign referees to them
+    * edit information about tournaments he have added
+    * grant and revoke `player` and/or `judge` status to registered participants in their tournaments
+    * create a schedule of matches for approved players and assign judges to them
     * enter match results
   
 
@@ -113,7 +115,7 @@ To check how this app works on-line, please feel free to go to
 ### Tournaments list for log in user
 ![Screenshot of tournaments list](./images/screenshot_tournaments_list.png)
 
-### Tournament detail for log in player (approved by organizer)
+### Tournament detail for log in user (approved by organizer as `player` and `judge`)
 ![Screenshot of tournament detail for player](./images/screenshot_tournament_detail_for_player.png)
 
 ### Tournament detail for log in organizer
