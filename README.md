@@ -15,12 +15,12 @@
 * [Screenshots](#screenshots)
 
 
-## Idea
+# Idea
 The idea to create an application was born during a darts competition in one of the local pubs, 
 during which the results were written down on pieces of paper.
 
 
-## Goals
+# Goals
 
 ### The main tasks of the application are currently:
 * collecting information about ongoing darts tournaments in one place, along with the possibility of signing up
@@ -35,7 +35,7 @@ generate statistics for a given game and the entire tournament
 * rescaling the application to support more tournaments and users
 
 
-## Technologies:
+# Technologies:
 
 ### So far used:
 - [Python](https://www.python.org/) - version 3.11.3
@@ -54,7 +54,7 @@ generate statistics for a given game and the entire tournament
 - CI/CD
 
 
-## Features
+# Features
 
 ### User not logged in
 An not logged in user can only see basic information about planned and completed tournaments, such as date, name, city,
@@ -84,16 +84,19 @@ __Organizer__ - i.e. one who has the `organizer` status assigned by the administ
     * enter match results
   
 
-## Demo
+# Demo
 
 To check how this app works on-line, please feel free to go to 
 [pamid.pythonanywhere.com](https://pamid.pythonanywhere.com/)
 
 
-## Screenshots
+# Screenshots
 
-### Main page
-![Screenshot of homepage](./images/screenshot_homepage.png)
+### Main page for not log in user
+![Screenshot of homepage for not log in user](./images/screenshot_homepage.png)
+
+### Main page for log in user
+![Screenshot of homepage for log in user](./images/screenshot_homepage_log_in.png)
 
 ### Log in page
 ![Screenshot of log in page](./images/screenshot_log_in.png)
@@ -104,11 +107,17 @@ To check how this app works on-line, please feel free to go to
 ### Password reset page
 ![Screenshot of password reset form](./images/screenshot_forgot_password.png)
 
+### Update user profile form
+![Screenshot of update user profile form](./images/screenshot_update_profile.png)
+
 ### Tournaments list for log in user
 ![Screenshot of tournaments list](./images/screenshot_tournaments_list.png)
 
+### Tournament detail for log in player (approved by organizer)
+![Screenshot of tournament detail for player](./images/screenshot_tournament_detail_for_player.png)
+
 ### Tournament detail for log in organizer
-![Screenshot of tournament detail](./images/screenshot_tournament_detail.png)
+![Screenshot of tournament detail for organizer](./images/screenshot_tournament_detail.png)
 
 ### Tournament edit form for log in organizer
 ![Screenshot of tournament edit form](./images/screenshot_tournament_edit_form.png)
