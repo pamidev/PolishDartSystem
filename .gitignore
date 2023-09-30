@@ -13,8 +13,9 @@ env/
 # PyCharm-specific files
 .idea/
 
-# Database file
+# Database files
 *.sqlite3
+data/
 
 # Other files
 .DS_Store
