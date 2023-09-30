@@ -4,6 +4,5 @@
 .git/
 **/__pycache__/
 Dockerfile
-db_pds.sqlite3
 **/*.md
 images/
