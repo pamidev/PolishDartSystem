@@ -41,7 +41,7 @@ generate statistics for a given game and the entire tournament
 
 ### So far used:
 - [Python](https://www.python.org/) - version 3.11.3
-- [Django](https://www.djangoproject.com/) framework - version 4.2.4
+- [Django](https://www.djangoproject.com/) framework - version 4.2.5
 - [PostreSQL](https://www.postgresql.org/) - version 16.0
 - [SQLite](https://www.sqlite.org/) - version 3.43.1
 - [HTML](https://en.wikipedia.org/wiki/HTML) - version 5
