@@ -1,9 +1,26 @@
-# Idea
+# Polish Dart System
+> It's my first extensive `Django` project, which will help me to known some new technologies like `Docker`
+> and DevOps tools for continuous integration and continuous delivery (CI/CD).
+>
+> Since the application is still in the development process, it is impossible to update the `README.md` frequently. 
+> Once some modules are refined, its more detailed description of how it works and screenshots will appear.
+
+
+## Table of Contents
+* [Idea](#idea)
+* [Goals](#goals)
+* [Technologies](#technologies)
+* [Features](#features)
+* [Demo](#demo)
+* [Screenshots](#screenshots)
+
+
+## Idea
 The idea to create an application was born during a darts competition in one of the local pubs, 
 during which the results were written down on pieces of paper.
 
 
-# Goals
+## Goals
 
 ### The main tasks of the application are currently:
 * collecting information about ongoing darts tournaments in one place, along with the possibility of signing up
@@ -18,15 +35,34 @@ generate statistics for a given game and the entire tournament
 * rescaling the application to support more tournaments and users
 
 
-# Assumptions (business requirements)
+## Technologies:
 
-## User not logged in
+### So far used:
+- [Python](https://www.python.org/) - version 3.11.3
+- [Django](https://www.djangoproject.com/) framework - version 4.2.4
+- [PostreSQL](https://www.postgresql.org/) - version 16.0
+- [SQLite](https://www.sqlite.org/) - version 3.43.1
+- [HTML](https://en.wikipedia.org/wiki/HTML) - version 5
+- [CSS](https://en.wikipedia.org/wiki/CSS) - version 3
+- [Bootstrap](https://getbootstrap.com/) - version 5.3.0
+- [Docker](https://www.docker.com/) - version 24.06
+- and [GitHub](https://github.com) of course
+
+### Soon:
+- deploying on Virtual Personal Server with OS like Linux Server Ubuntu and own domain
+- [Nginx](https://nginx.org)
+- CI/CD
+
+
+## Features
+
+### User not logged in
 An not logged in user can only see basic information about planned and completed tournaments, such as date, name, city,
 place and the number of players approved by the organizer.
 
 >Such a not logged in user can, of course, create an account to have more options.
 
-## User logged in
+### User logged in
 __User__ - i.e. one who does not have the `organizer` status, but has the ability to:
 * see your profile (data that is saved in the database)
 * change or supplement the data provided during registration
@@ -35,7 +71,8 @@ __User__ - i.e. one who does not have the `organizer` status, but has the abilit
 * see a list of approved players for a given tournament and their status
 * after approval by the organizer and granting him the status of a player or referee, he may perform these functions 
 in the tournament for which he registered
-* become an organizer
+* reset own password
+* become an `organizer`
 
 __Organizer__ - i.e. one who has the `organizer` status assigned by the administrator:
 * has possibilities like `user` (except the last one of course)
@@ -45,6 +82,37 @@ __Organizer__ - i.e. one who has the `organizer` status assigned by the administ
     * grant and revoke player and/or referee status to registered participants in their tournaments
     * create a schedule of matches for approved players and assign referees to them
     * enter match results
+  
 
->Since the application is still in the development process, it is impossible to update the `README.md` frequently. 
->Once some modules are refined, its more detailed description of how it works and screenshots will appear.
+## Demo
+
+To check how this app works on-line, please feel free to go to 
+[pamid.pythonanywhere.com](https://pamid.pythonanywhere.com/)
+
+
+## Screenshots
+
+### Main page
+![Screenshot of homepage](./images/screenshot_homepage.png)
+
+### Log in page
+![Screenshot of log in page](./images/screenshot_log_in.png)
+
+### Sign up page
+![Screenshot of sign up page](./images/screenshot_sign_up.png)
+
+### Password reset page
+![Screenshot of password reset form](./images/screenshot_forgot_password.png)
+
+### Tournaments list for log in user
+![Screenshot of tournaments list](./images/screenshot_tournaments_list.png)
+
+### Tournament detail for log in organizer
+![Screenshot of tournament detail](./images/screenshot_tournament_detail.png)
+
+### Tournament edit form for log in organizer
+![Screenshot of tournament edit form](./images/screenshot_tournament_edit_form.png)
+
+
+
+
