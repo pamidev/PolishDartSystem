@@ -129,13 +129,15 @@ class Competitor(models.Model):
 
 
 class Match(models.Model):
-    tournament = models.ForeignKey(Tournament, blank=False, null=False, on_delete=CASCADE)
-    match_type = models.ForeignKey(MatchType, blank=False, null=False, on_delete=CASCADE)
-    player_1 = models.ForeignKey(Competitor, blank=False, null=False, on_delete=CASCADE, related_name='player_1')
-    player_2 = models.ForeignKey(Competitor, blank=False, null=False, on_delete=CASCADE, related_name='player_2')
-    judge = models.ForeignKey(Competitor, blank=False, null=False, on_delete=CASCADE, related_name='judge')
+    tournament = models.ForeignKey(Tournament, blank=False, on_delete=CASCADE)
+    match_type = models.ForeignKey(MatchType, blank=True, on_delete=CASCADE)
+    player_1 = models.ForeignKey(Competitor, blank=False, on_delete=CASCADE, related_name='player_1')
+    player_2 = models.ForeignKey(Competitor, blank=False, on_delete=CASCADE, related_name='player_2')
+    judge = models.ForeignKey(Competitor, blank=True, on_delete=CASCADE, related_name='judge')
     start_date = models.DateTimeField(default=datetime.now())
     end_date = models.DateTimeField(default=None)
+    player_1_score = models.IntegerField(default=0)
+    player_2_score = models.IntegerField(default=0)
     added = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
