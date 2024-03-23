@@ -40,14 +40,13 @@ generate statistics for a given game and the entire tournament
 # Technologies:
 
 ### So far used:
-- [Python](https://www.python.org/) - version 3.11.3
-- [Django](https://www.djangoproject.com/) framework - version 4.2.5
-- [PostreSQL](https://www.postgresql.org/) - version 16.0
-- [SQLite](https://www.sqlite.org/) - version 3.43.1
+- [Python](https://www.python.org/) - version 3.12
+- [Django](https://www.djangoproject.com/) framework - version 5.0.3
+- [SQLite](https://www.sqlite.org/) - version 3.45.2
 - [HTML](https://en.wikipedia.org/wiki/HTML) - version 5
 - [CSS](https://en.wikipedia.org/wiki/CSS) - version 3
 - [Bootstrap](https://getbootstrap.com/) - version 5.3.0
-- [Docker](https://www.docker.com/) - version 24.06
+- [Docker](https://www.docker.com/)
 - and [GitHub](https://github.com) of course
 
 ### Soon:
