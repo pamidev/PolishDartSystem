@@ -242,6 +242,13 @@ class MatchesListView(ListView):
         tournament_id = self.kwargs['tournament_id']
         return Match.objects.filter(tournament_id=tournament_id).select_related('player_1', 'player_2', 'tournament')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tournament_id = self.kwargs['tournament_id']
+        tournament = Tournament.objects.get(pk=tournament_id)
+        context['tournament'] = tournament
+        return context
+
 
 class MatchDetailView(DetailView):
     pass
