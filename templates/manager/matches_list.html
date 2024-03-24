@@ -1,21 +1,46 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block title %}Polish Dart System | Matches{% endblock %}
 {% block content %}
 
-<div class="card">
-    <div class="card-body">
-        <h4 class="card-title">Matches list</h4>
-            {% if match_list %}
-                <ul>
-                    {% for match in match_list %}
-                        <li>{{ match.player_1 }} vs. {{ match.player_2 }} ({{ match.tournament }})</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p><i>Sorry, no matches yet.</i></p>
-            {% endif %}
+<section>
+    <div class ="text p-3">
+        <caption><h5>Matches list of <strong>{{ tournament }}</strong></h5></caption>
+        {% if matches_list %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-dark">
+                            <th scope="col">Player 1</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Player 2</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Game</th>
+                            <th scope="col">Judge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for match in matches_list %}
+                            <tr>
+                                <td>{{ match.player_1 }}</td>
+                                <td>{{ match.player_1_score }}</td>
+                                <td>{{ match.player_2 }}</td>
+                                <td>{{ match.player_2_score }}</td>
+                                <td>{{ match.match_type }}</td>
+                                <td>{{ match.judge }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="goBack()">
+                        Back
+                    </button>
+                </div>
+            </div>
+        {% else %}
+            <p><i>Sorry, no matches yet.</i></p>
+        {% endif %}
     </div>
-</div>
-
+</section>
+    
 {% endblock %}
