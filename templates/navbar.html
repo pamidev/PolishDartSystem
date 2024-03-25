@@ -49,12 +49,12 @@
                         {% endif %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                               aria-expanded="false">{{ request.user.first_name }}'s account
+                               aria-expanded="false">Account
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
                                     <a class="dropdown-item" href="{% url 'profile' request.user.pk %}">
-                                        Profile
+                                        Profile data
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -66,9 +66,6 @@
                                     <a class="dropdown-item" href="{% url 'password_change' %}">
                                         Change password
                                     </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#" onclick="logout()">Log out</a>
                                 </li>
                             </ul>
                         </li>
