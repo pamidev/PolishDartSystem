@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Polish Dart System | Match edit form{% endblock %}
+{% block content %}
+
+    <section>
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static 'img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
+            </div>
+            <div class="col d-flex justify-content-center align-items-center">
+                <div>
+                    <h5 class="fw-bold mb-3">Match edit form</h5>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-2">
+                            <label class="mb-2 text-muted" for="id_tournament">Tournament name</label>
+                            <input id="id_tournament" type="text" class="form-control"
+                                   name="tournament" value="{{ match_edit.tournament }}">
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label class="mb-2 text-muted" for="id_match_type">Match type</label>
+                            <input id="id_match_type" type="text" class="form-control"
+                                   name="match_type" value="{{ match_edit.match_type }}">
+                        </div>
+
+                        <div class ="row g-2">
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_player_1">Player 1</label>
+                                <input id="id_player_1" type="text" class="form-control"
+                                       name="player_1" value="{{ match_edit.player_1 }}">
+                            </div>
+
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_player_1_score">Score</label>
+                                <input id="id_player_1_score" type="text" class="form-control"
+                                       name="player_1_score" value="{{ match_edit.player_1_score }}">
+                            </div>
+                        </div>
+                        
+                        <div class ="row g-2">
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_player_1">Player 2</label>
+                                <input id="id_player_1" type="text" class="form-control"
+                                       name="player_1" value="{{ match_edit.player_1 }}">
+                            </div>
+
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_player_2_score">Score</label>
+                                <input id="id_player_2_score" type="text" class="form-control"
+                                       name="player_2_score" value="{{ match_edit.player_2_score }}">
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="mb-2 text-muted" for="id_judge">Judge</label>
+                            <input id="id_judge" type="text" class="form-control"
+                                   name="judge" value="{{ match_edit.judge }}">
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Save changes
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="goBack()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
