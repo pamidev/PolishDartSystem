@@ -135,7 +135,7 @@ class Match(models.Model):
     player_2 = models.ForeignKey(Competitor, blank=False, on_delete=CASCADE, related_name='player_2')
     judge = models.ForeignKey(Competitor, blank=True, on_delete=CASCADE, related_name='judge')
     start_date = models.DateTimeField(default=datetime.now())
-    end_date = models.DateTimeField(default=None)
+    end_date = models.DateTimeField(null=True, blank=True)
     player_1_score = models.IntegerField(default=0)
     player_2_score = models.IntegerField(default=0)
     added = models.DateTimeField(auto_now_add=True)
