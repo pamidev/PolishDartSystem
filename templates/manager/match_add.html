@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Polish Dart System | Match add form{% endblock %}
+{% block content %}
+
+    <section>
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static 'img/dartboard.jpeg' %}" alt="Dartboard" width="100%" height="auto">
+            </div>
+            <div class="col d-flex justify-content-center align-items-center">
+                <div>
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i>{% for field, error in form.errors.items %}
+                                {% if field != '__all__' %}
+                                    {% for err in error %}
+                                        <strong>{{ field }}:</strong> {{ err }}<br>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ error }}
+                                {% endif %}
+                            {% endfor %}</i>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                    <h5 class="fw-bold mb-4">Match add form</h5>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-2">
+                            <label class="mb-2 text-muted" for="id_tournament">Tournament name</label>
+                            <select id="id_tournament" class="form-control" name="tournament">
+                                {% for tournament in tournaments %}
+                                    <option value="{{ tournament.id }}" 
+                                            {% if tournament.id == match_add.tournament.id %} 
+                                            selected {% endif %}>{{ tournament }}</option>
+                                {% endfor %}
+                        </select>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label class="mb-2 text-muted" for="id_match_type">Match type</label>
+                            <select id="id_match_type" class="form-control" name="match_type">
+                                {% for match_type in match_types %}
+                                    <option value="{{ match_type.id }}" 
+                                            {% if match_type.id == match_add.match_type.id %} 
+                                            selected {% endif %}>{{ match_type }}</option>
+                                {% endfor %}
+                        </select>
+                        </div>
+
+                        <div class ="row g-2">
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_player_1">Player 1</label>
+                                <select id="id_player_1" class="form-control" name="player_1">
+                                    {% for player in tournament_players %}
+                                        <option value="{{ player.id }}" 
+                                                {% if player.id == match_add.player_1.id %} 
+                                                selected {% endif %}>{{ player }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_player_1_score">Score</label>
+                                <input id="id_player_1_score" type="text" class="form-control"
+                                       name="player_1_score" value="{{ match_add.player_1_score }}">
+                            </div>
+                        </div>
+                        
+                        <div class ="row g-2">
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_player_2">Player 2</label>
+                                <select id="id_player_2" class="form-control" name="player_2">
+                                    {% for player in tournament_players %}
+                                        <option value="{{ player.id }}" 
+                                                {% if player.id == match_add.player_2.id %}
+                                                selected {% endif %}>{{ player }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-auto mb-3">
+                                <label class="mb-2 text-muted" for="id_player_2_score">Score</label>
+                                <input id="id_player_2_score" type="text" class="form-control"
+                                       name="player_2_score" value="{{ match_add.player_2_score }}">
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="mb-2 text-muted" for="id_judge">Judge</label>
+                            <select id="id_judge" class="form-control" name="judge">
+                                {% for judge in tournament_judges %}
+                                    <option value="{{ judge.id }}" 
+                                            {% if judge.id == match_add.judge.id %} 
+                                            selected {% endif %}>{{ judge }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Save changes
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="goBack()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
