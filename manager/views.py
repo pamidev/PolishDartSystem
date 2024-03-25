@@ -233,6 +233,32 @@ class CompetitorDetailView(DetailView):
     pass
 
 
+class MatchAddView(LoginRequiredMixin, CreateView):
+    model = Match
+    form_class = MatchForm
+    template_name = 'manager/match_add.html'
+
+    def get_success_url(self):
+        if 'tournament_id' in self.kwargs:
+            return reverse('matches_list', kwargs={'tournament_id': self.kwargs['tournament_id']})
+        else:
+            return reverse('tournaments_list')
+
+    def get_queryset(self):
+        return Tournament.objects.filter(organizer=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tournaments = self.get_queryset()
+        context['tournaments'] = tournaments
+        if 'tournament_id' in self.kwargs:
+            tournament_id = self.kwargs['tournament_id']
+            context['tournament_players'] = Competitor.objects.filter(tournament_id=tournament_id, is_player=True)
+            context['tournament_judges'] = Competitor.objects.filter(tournament_id=tournament_id, is_judge=True)
+            context['match_types'] = MatchType.objects.all()
+        return context
+
+
 class MatchesListView(ListView):
     model = Match
     template_name = 'manager/matches_list.html'
