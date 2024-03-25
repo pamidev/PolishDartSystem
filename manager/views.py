@@ -9,8 +9,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, TemplateView, DetailView, CreateView, UpdateView
 
 from accounts.models import CustomUser
-from .forms import TournamentForm, CompetitorForm
-from .models import Tournament, Competitor, Match, Training
+from .forms import TournamentForm, CompetitorForm, MatchForm
+from .models import Tournament, Competitor, Match, Training, MatchType
 
 
 class HomePageView(TemplateView):
@@ -248,6 +248,16 @@ class MatchesListView(ListView):
         tournament = Tournament.objects.get(pk=tournament_id)
         context['tournament'] = tournament
         return context
+
+
+class MatchEditView(LoginRequiredMixin, UpdateView):
+    model = Match
+    form_class = MatchForm
+    template_name = 'manager/match_edit.html'
+    context_object_name = 'match_edit'
+
+    def get_success_url(self):
+        return reverse('matches_list')
 
 
 class MatchDetailView(DetailView):
