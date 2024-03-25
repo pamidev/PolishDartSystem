@@ -89,17 +89,6 @@ class TournamentAddView(LoginRequiredMixin, CreateView):
     template_name = 'manager/tournament_add.html'
     success_url = reverse_lazy('tournaments_list')
 
-    def form_valid(self, form):
-        if self.request.user.is_organizer:
-            form.instance.organizer = self.request.user
-
-            if Tournament.objects.filter(name=form.instance.name).exists():
-                return messages.error(self.request, "This tournament name already exist.")
-            else:
-                return super().form_valid(form)
-        else:
-            return messages.error(self.request, "You do not have permission to add a tournament.")
-
 
 class TournamentEditView(LoginRequiredMixin, UpdateView):
     model = Tournament
