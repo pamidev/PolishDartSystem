@@ -203,23 +203,52 @@ class CompetitorsListView(ListView):
 
         tournament = get_object_or_404(Tournament, pk=tournament_id)
 
-        competitors = (Competitor.objects.filter(tournament=tournament, is_player=True) |
-                       Competitor.objects.filter(tournament=tournament, is_judge=True))
+        approved_competitors = (Competitor.objects.filter(tournament=tournament, is_player=True) |
+                                Competitor.objects.filter(tournament=tournament, is_judge=True))
 
-        for competitor in competitors:
+        all_competitors = Competitor.objects.filter(tournament=tournament)
+
+        for competitor in approved_competitors:
             competitor.is_player = competitor.is_player and competitor.tournament_id == tournament_id
             competitor.is_judge = competitor.is_judge and competitor.tournament_id == tournament_id
 
         context.update({
             'tournament': tournament,
-            'competitors_list': competitors,
+            'competitors_list': all_competitors,
+            'approved_competitors': approved_competitors,
         })
 
         return context
 
 
-class CompetitorDetailView(DetailView):
-    pass
+@login_required
+def competitor_details(request, tournament_id, competitor_id):
+    competitor = get_object_or_404(Competitor, pk=competitor_id)
+    tournament = competitor.tournament
+
+    if request.method == 'POST':
+        form = CompetitorForm(request.POST, instance=competitor)
+
+        if form.is_valid():
+            competitor = form.save(commit=False)
+            competitor.is_player = form.cleaned_data['is_player']
+            competitor.is_judge = form.cleaned_data['is_judge']
+            competitor.edited = datetime.now()
+            competitor.save()
+
+            messages.success(request, 'Successfully updated.')
+
+        return redirect('competitors_list', tournament_id=tournament_id)
+    else:
+        form = CompetitorForm(instance=competitor)
+
+    context = {
+        'competitor': competitor,
+        'tournament': tournament,
+        'form': form,
+    }
+
+    return render(request, 'manager/competitor_details.html', context)
 
 
 class MatchAddView(LoginRequiredMixin, CreateView):
