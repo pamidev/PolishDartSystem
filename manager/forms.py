@@ -48,6 +48,9 @@ class CompetitorForm(ModelForm):
         competitor = forms.IntegerField(widget=forms.HiddenInput())
         tournament = forms.IntegerField(widget=forms.HiddenInput())
 
+    is_player = forms.BooleanField(label='Player', required=False)
+    is_judge = forms.BooleanField(label='Judge', required=False)
+
 
 class FriendForm(ModelForm):
     class Meta:
