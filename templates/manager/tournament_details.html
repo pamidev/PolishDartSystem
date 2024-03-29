@@ -104,7 +104,9 @@
                         {% if not is_registered %}
                             <form method="POST">
                             {% csrf_token %}
-                            {{ form.as_p }}
+                            {{ form.competitor }}
+                            {{ form.tournament }}
+                            {{ form.joined }}
                                 <button type="submit" class="btn btn-success btn-sm">Register me</button>
                             </form>
                         {% endif %}
