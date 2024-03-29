@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Polish Dart System | Competitor: {{ competitor.competitor.get.full_name }}{% endblock %}
+{% block content %}
+
+    <section>
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static "/img/dartboard.jpeg" %}" alt="Dartboard" width="100%" height="auto">
+            </div>
+            <div class="col d-flex justify-content-center align-items-center">
+                <div>
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i>{% for field, error in form.errors.items %}
+                                {% if field != '__all__' %}
+                                    {% for err in error %}
+                                        <strong>{{ field }}:</strong> {{ err }}<br>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ error }}
+                                {% endif %}
+                            {% endfor %}</i>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                              <th colspan="2" scope="row">Competitor details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">E-Mail</th>
+                                <td>{{ competitor.competitor.email }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">First name</th>
+                                <td>{{ competitor.competitor.first_name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Last name</th>
+                                <td>{{ competitor.competitor.last_name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Country</th>
+                                <td>{{ competitor.competitor.country }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">City</th>
+                                <td>{{ competitor.competitor.city }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Phone</th>
+                                <td>{{ competitor.competitor.phone }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Joined</th>
+                                <td>{{ competitor.competitor.joined|date:"Y-m-d, H:i" }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Edited</th>
+                                <td>{{ competitor.competitor.edited|date:"Y-m-d, H:i" }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Status</th>
+                                <td>
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <input type="checkbox" id="id_is_player" name="is_player" 
+                                        {% if competitor.is_player %}checked{% endif %}>
+                                        <label for="id_is_player">
+                                            <span class="badge text-bg-success">Player</span>
+                                        </label>
+                                        <input type="checkbox" id="id_is_judge" name="is_judge" 
+                                        {% if competitor.is_judge %}checked{% endif %}>
+                                        <label for="id_is_judge">
+                                            <span class="badge text-bg-warning">Judge</span>
+                                        </label>
+                                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                        <a href="{% url 'competitors_list' competitor.tournament_id %}" 
+                                           class="btn btn-danger btn-sm">Cancel</a>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
