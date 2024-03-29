@@ -78,9 +78,9 @@
                             <button type="submit" class="btn btn-success btn-sm">
                                 Save changes
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="goBack()">
+                            <a href="{% url 'organizer_tournaments' user.pk %}" type="button" class="btn btn-danger btn-sm">
                                 Cancel
-                            </button>
+                            </a>
                         </div>
                     </form>
                 </div>
