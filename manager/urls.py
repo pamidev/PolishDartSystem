@@ -10,6 +10,7 @@ urlpatterns = [
     path('tournaments/<int:tournament_id>/', views.tournament_details, name='tournament_details'),
     path('tournaments/<int:pk>/edit/', views.TournamentEditView.as_view(), name='tournament_edit'),
     path('tournaments/<int:tournament_id>/competitors/', views.CompetitorsListView.as_view(), name='competitors_list'),
+    path('tournaments/<int:tournament_id>/competitors/<int:competitor_id>/', views.competitor_details, name='competitor'),
     path('tournaments/<int:tournament_id>/matches/', views.MatchesListView.as_view(), name='matches_list'),
     path('tournaments/<int:tournament_id>/matches/<int:pk>/edit/', views.MatchEditView.as_view(), name='match_edit'),
     path('tournaments/<int:tournament_id>/matches/add/', views.MatchAddView.as_view(), name='match_add'),
