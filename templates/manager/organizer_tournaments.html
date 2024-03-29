@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Polish Dart System | Tournaments list{% endblock %}
+{% block title %}Polish Dart System | My tournaments list{% endblock %}
 {% block content %}
 
     <section>
         <div class="text p-3">
-            <h5>Tournaments list</h5>
+            <h5>My tournaments list</h5>
             {% if organizer_tournaments %}
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -15,7 +15,6 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">City</th>
                                 <th scope="col">Place</th>
-                                <th scope="col">Comp.</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -24,11 +23,14 @@
                                 <tr>
                                     <td>{{ tournament.start_date|date:"Y-d-m, H:i" }}</td>
                                     <td>{{ tournament.end_date|date:"Y-d-m, H:i" }}</td>
-                                    <td><a href="{% url 'tournament_details' tournament.id %}">{{ tournament.name }}</a></td>
+                                    <td>{{ tournament.name }}</td>
                                     <td>{{ tournament.city }}</td>
                                     <td>{{ tournament.place }}</td>
-                                    <td>{{ tournament.competitors }}</td>
-                                    <td><a href="{% url 'tournament_edit' tournament.id %}">Edit</a></td>
+                                    <td>
+                                        <a href="{% url 'tournament_details' tournament.id %}">Details</a> | 
+                                        <a href="{% url 'tournament_edit' tournament.id %}">Edit</a> | 
+                                        <a href="{% url 'competitors_list' tournament.id %}">Competitors</a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                     </table>
