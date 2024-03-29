@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Polish Dart System | Competitors{% endblock %}
+{% block title %}Polish Dart System | Competitors of {{ tournament }}{% endblock %}
 {% block content %}
 
 <section>
     <div class ="text p-3">
-        <caption><h5>Approved competitors list of <strong>{{ tournament }}</strong></h5></caption>
+        <caption><h5>Competitors list of <strong>{{ tournament }}</strong></h5></caption>
         {% if competitors_list %}
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -15,6 +15,7 @@
                             <th scope="col">Country</th>
                             <th scope="col">City</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,12 +26,23 @@
                                 <td>{{ competitor.competitor.country }}</td>
                                 <td>{{ competitor.competitor.city }}</td>
                                 <td>
-                                    {% if competitor.is_player %}
+                                    {% if competitor.is_player and not competitor.is_judge %}
                                         <span class="badge text-bg-success">Player</span>
-                                    {% endif %}
-                                    {% if competitor.is_judge %}
+                                        <span class="badge text-bg-light">Judge</span>
+                                    {% elif not competitor.is_player and competitor.is_judge %}
+                                        <span class="badge text-bg-light">Player</span>
                                         <span class="badge text-bg-warning">Judge</span>
+                                    {% elif competitor.is_player and competitor.is_judge %}
+                                        <span class="badge text-bg-success">Player</span>
+                                        <span class="badge text-bg-warning">Judge</span>
+                                    {% else %}
+                                        <span class="badge text-bg-danger">Not approved yet</span>
                                     {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'competitor' competitor.tournament_id competitor.id %}">
+                                        Edit status
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}
