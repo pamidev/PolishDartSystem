@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q, Case, When, Value, BooleanField
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, TemplateView, DetailView, CreateView, UpdateView
 
 from accounts.models import CustomUser
@@ -197,20 +198,23 @@ class CompetitorsListView(ListView):
     context_object_name = 'competitors_list'
     template_name = 'manager/competitors_list.html'
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tournament_id = self.kwargs['tournament_id']
 
         tournament = get_object_or_404(Tournament, pk=tournament_id)
 
-        approved_competitors = (Competitor.objects.filter(tournament=tournament, is_player=True) |
-                                Competitor.objects.filter(tournament=tournament, is_judge=True))
-
-        all_competitors = Competitor.objects.filter(tournament=tournament)
-
-        for competitor in approved_competitors:
-            competitor.is_player = competitor.is_player and competitor.tournament_id == tournament_id
-            competitor.is_judge = competitor.is_judge and competitor.tournament_id == tournament_id
+        if self.request.user == tournament.organizer:
+            all_competitors = Competitor.objects.filter(tournament=tournament)
+            approved_competitors = all_competitors
+        else:
+            approved_competitors = (Competitor.objects.filter(tournament=tournament, is_player=True) |
+                                    Competitor.objects.filter(tournament=tournament, is_judge=True))
+            all_competitors = approved_competitors
 
         context.update({
             'tournament': tournament,
