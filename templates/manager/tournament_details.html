@@ -88,20 +88,20 @@
                         </tbody>
                     </table>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                        <button type="button" class="btn btn-primary btn-sm" onclick="goBack()">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="goBack()">
                             Back
                         </button>
                         {% if request.user.is_authenticated %}
                             <a href="{% url 'competitors_list' tournament.id %}">
-                                <button type="button" class="btn btn-primary btn-sm">Competitors</button>
+                                <button type="button" class="btn btn-secondary btn-sm">Competitors</button>
                             </a>
                         {% endif %}
                         {% if is_tournament_organizer %}
                             <a href="{% url 'tournament_edit' tournament.id %}">
-                                <button type="button" class="btn btn-primary btn-sm">Edit tournament</button>
+                                <button type="button" class="btn btn-secondary btn-sm">Edit tournament</button>
                             </a>
                         {% endif %}
-                        {% if not is_registered %}
+                        {% if not is_registered and not is_tournament_organizer %}
                             <form method="POST">
                             {% csrf_token %}
                             {{ form.competitor }}
