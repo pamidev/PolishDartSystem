@@ -10,35 +10,48 @@
                 <table class="table table-hover">
                     <thead>
                         <tr class="table-dark">
+                            <th scope="col">#</th>
                             <th scope="col">Player 1</th>
-                            <th scope="col">Score</th>
+                            <th colspan="2">Score</th>
                             <th scope="col">Player 2</th>
-                            <th scope="col">Score</th>
                             <th scope="col">Game</th>
                             <th scope="col">Judge</th>
+                            <th scope="col">Acton</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for match in matches_list %}
                             <tr>
+                                <td>{{ forloop.counter }}.</td>
                                 <td>{{ match.player_1 }}</td>
                                 <td>{{ match.player_1_score }}</td>
-                                <td>{{ match.player_2 }}</td>
                                 <td>{{ match.player_2_score }}</td>
+                                <td>{{ match.player_2 }}</td>
                                 <td>{{ match.match_type }}</td>
                                 <td>{{ match.judge }}</td>
+                                {% if request.user == tournament.organizer or tournament.match.judge %}
+                                <td><a href="{% url 'match_edit' tournament.id match.pk %}" class="text-decoration-none">
+                                    <i class="bi bi-pencil-square"></i> Edit</a>
+                                </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="goBack()">
-                        Back
-                    </button>
+                    <a href="{% url 'organizer_tournaments' user.id %}">
+                        <button type="button" class="btn btn-secondary btn-sm">
+                        My tournaments
+                    </button></a>
+                    <a href="{% url 'match_add' tournament.id %}">
+                    <button type="button" class="btn btn-success btn-sm">
+                        Add match
+                    </button></a>
                 </div>
             </div>
         {% else %}
-            <p><i>Sorry, no matches yet.</i></p>
+            <i>Sorry, no matches yet. {% if request.user == tournament.organizer %}You probably need to 
+                <a href="{% url 'match_add' tournament.id %}">add a match</a>.{% endif %}</i>
         {% endif %}
     </div>
 </section>
