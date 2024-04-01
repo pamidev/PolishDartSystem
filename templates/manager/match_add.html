@@ -10,19 +10,13 @@
             </div>
             <div class="col d-flex justify-content-center align-items-center">
                 <div>
-                    {% if form.errors %}
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i>{% for field, error in form.errors.items %}
-                                {% if field != '__all__' %}
-                                    {% for err in error %}
-                                        <strong>{{ field }}:</strong> {{ err }}<br>
-                                    {% endfor %}
-                                {% else %}
-                                    {{ error }}
-                                {% endif %}
-                            {% endfor %}</i>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                <i>{{ message }}</i>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
                     {% endif %}
                     <h5 class="fw-bold mb-4">Match add form</h5>
                     <form method="POST">
@@ -48,43 +42,27 @@
                                 {% endfor %}
                         </select>
                         </div>
-
-                        <div class ="row g-2">
-                            <div class="col-auto mb-3">
-                                <label class="mb-2 text-muted" for="id_player_1">Player 1</label>
-                                <select id="id_player_1" class="form-control" name="player_1">
-                                    {% for player in tournament_players %}
-                                        <option value="{{ player.id }}" 
-                                                {% if player.id == match_add.player_1.id %} 
-                                                selected {% endif %}>{{ player }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="col-auto mb-3">
-                                <label class="mb-2 text-muted" for="id_player_1_score">Score</label>
-                                <input id="id_player_1_score" type="text" class="form-control"
-                                       name="player_1_score" value="{{ match_add.player_1_score }}">
-                            </div>
+                    
+                        <div class="mb-2">
+                            <label class="mb-2 text-muted" for="id_player_1">Player 1</label>
+                            <select id="id_player_1" class="form-control" name="player_1">
+                                {% for player in tournament_players %}
+                                    <option value="{{ player.id }}" 
+                                            {% if player.id == match_add.player_1.id %} 
+                                            selected {% endif %}>{{ player }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
-                        
-                        <div class ="row g-2">
-                            <div class="col-auto mb-3">
-                                <label class="mb-2 text-muted" for="id_player_2">Player 2</label>
-                                <select id="id_player_2" class="form-control" name="player_2">
-                                    {% for player in tournament_players %}
-                                        <option value="{{ player.id }}" 
-                                                {% if player.id == match_add.player_2.id %}
-                                                selected {% endif %}>{{ player }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="col-auto mb-3">
-                                <label class="mb-2 text-muted" for="id_player_2_score">Score</label>
-                                <input id="id_player_2_score" type="text" class="form-control"
-                                       name="player_2_score" value="{{ match_add.player_2_score }}">
-                            </div>
+                    
+                        <div class="mb-2">
+                            <label class="mb-2 text-muted" for="id_player_2">Player 2</label>
+                            <select id="id_player_2" class="form-control" name="player_2">
+                                {% for player in tournament_players %}
+                                    <option value="{{ player.id }}" 
+                                            {% if player.id == match_add.player_2.id %}
+                                            selected {% endif %}>{{ player }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
 
                         <div class="mb-2">
@@ -100,7 +78,7 @@
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="submit" class="btn btn-success btn-sm">
-                                Save changes
+                                Add match
                             </button>
                             <button type="button" class="btn btn-danger btn-sm" onclick="goBack()">
                                 Cancel
