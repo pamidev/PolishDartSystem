@@ -50,6 +50,10 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
+                                    <span class="dropdown-item disabled"><strong>{{ request.user.email }}</strong></span>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li class="nav-item">
                                     <a class="dropdown-item" href="{% url 'profile' request.user.pk %}">
                                         Profile data
                                     </a>
