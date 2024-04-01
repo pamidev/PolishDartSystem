@@ -210,7 +210,6 @@ class CompetitorsListView(ListView):
 
         if self.request.user == tournament.organizer:
             all_competitors = Competitor.objects.filter(tournament=tournament)
-            approved_competitors = all_competitors
         else:
             approved_competitors = (Competitor.objects.filter(tournament=tournament, is_player=True) |
                                     Competitor.objects.filter(tournament=tournament, is_judge=True))
@@ -219,7 +218,6 @@ class CompetitorsListView(ListView):
         context.update({
             'tournament': tournament,
             'competitors_list': all_competitors,
-            'approved_competitors': approved_competitors,
         })
 
         return context
@@ -260,11 +258,20 @@ class MatchAddView(LoginRequiredMixin, CreateView):
     form_class = MatchForm
     template_name = 'manager/match_add.html'
 
+    def form_valid(self, form):
+        match_exists = Match.objects.filter(self.object.match).exists()
+
+        if match_exists and form.instance.match != self.object.match:
+            return messages.warning(self.request, "This match already exists in your tournament.")
+
+        form.instance.added = datetime.now()
+        return super().form_valid(form)
+
     def get_success_url(self):
         if 'tournament_id' in self.kwargs:
             return reverse('matches_list', kwargs={'tournament_id': self.kwargs['tournament_id']})
         else:
-            return reverse('tournaments_list')
+            return messages.error(self.request, "First you need to add a tournament.")
 
     def get_queryset(self):
         return Tournament.objects.filter(organizer=self.request.user)
@@ -281,7 +288,7 @@ class MatchAddView(LoginRequiredMixin, CreateView):
         return context
 
 
-class MatchesListView(ListView):
+class MatchesListView(LoginRequiredMixin, ListView):
     model = Match
     template_name = 'manager/matches_list.html'
     context_object_name = 'matches_list'
