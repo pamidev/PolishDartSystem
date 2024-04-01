@@ -10,6 +10,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr class="table-dark">
+                            <th scope="col">#</th>
                             <th scope="col">First name</th>
                             <th scope="col">Last name</th>
                             <th scope="col">Country</th>
@@ -23,6 +24,7 @@
                     <tbody>
                         {% for competitor in competitors_list %}
                             <tr>
+                                <td>{{ forloop.counter }}.</td>
                                 <td>{{ competitor.competitor.first_name }}</td>
                                 <td>{{ competitor.competitor.last_name }}</td>
                                 <td>{{ competitor.competitor.country }}</td>
@@ -43,8 +45,8 @@
                                 </td>
                                 {% if request.user == competitor.tournament.organizer %}
                                 <td>
-                                    <a href="{% url 'competitor' competitor.tournament_id competitor.id %}">
-                                        Edit status
+                                    <a href="{% url 'competitor' competitor.tournament_id competitor.id %}" 
+                                       class="text-decoration-none"><i class="bi bi-pencil-square"></i> Edit
                                     </a>
                                 </td>
                                 {% endif %}
@@ -53,7 +55,7 @@
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="goBack()">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="goBack()">
                         Back
                     </button>
                 </div>
