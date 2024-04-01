@@ -17,18 +17,19 @@
                     <table class="table table-hover">
                         <thead class="table-dark">
                             <tr>
+                                <th scope="col">#</th>
                                 <th scope="col">Start</th>
                                 <th scope="col">End</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">City</th>
                                 <th scope="col">Place</th>
-                                <th scope="col">P</th>
-                                <th scope="col">J</th>
+                                <th scope="col">Players</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for tournament in tournaments_list %}
                                 <tr>
+                                    <td>{{ forloop.counter }}.</td>
                                     <td>{{ tournament.start_date|date:"Y-m-d, H:i" }}</td>
                                     <td>{{ tournament.end_date|date:"Y-m-d, H:i" }}</td>
                                     <td>
@@ -43,7 +44,6 @@
                                     <td>{{ tournament.city }}</td>
                                     <td>{{ tournament.place }}</td>
                                     <td>{{ tournament.players }}</td>
-                                    <td>{{ tournament.judges }}</td>
                                 </tr>
                             {% endfor %}
                     </table>
