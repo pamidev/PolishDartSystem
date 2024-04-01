@@ -43,8 +43,9 @@
                     </table>
                 </div>
             {% else %}
-                <p><i>Sorry, no tournaments yet.</i></p>
-            {% endif %}
+                <p><i>Sorry, no tournaments yet. {% if request.user.is_organizer %}You probably need to 
+                <a href="{% url 'tournament_add' %}">add a tournament</a>.{% endif %}</i>
+                {% endif %}</p>
         </div>
     </section>
 
